@@ -66,6 +66,17 @@ GO
 CREATE SCHEMA arts;
 GO
 
+-- CREACION TABLAS SCHEMA ASSETS
+CREATE TABLE asset.tblLoginAttempts(
+    idLoginAttempt INT IDENTITY PRIMARY KEY,
+    email NVARCHAR(100) NOT NULL,
+    ipClient NVARCHAR(100),
+    userAgent NVARCHAR(200),
+    isSuccessful BIT NOT NULL,
+    reason NVARCHAR(100) NOT NULL,
+    attemptDate DATETIME NOT NULL  DEFAULT SYSDATETIME()
+);
+
 -- CREACION TABLAS SCHEMA EVENTS
 	CREATE TABLE events.tblEvents (
 		idEvent INTEGER IDENTITY PRIMARY KEY,
@@ -550,6 +561,13 @@ GO
 	ON users.tblUsers(email)
 	WHERE email IS NOT NULL
 	GO
+
+	-- Creacion de Indices de busquedas de inicio de Sesion 
+	CREATE INDEX IX_tblLoginAttempts_email_date 
+	ON asset.tblLoginAttempts(email, attemptDate);
+	
+	CREATE INDEX IX_tblLoginAttempts_date 
+	ON asset.tblLoginAttempts(attemptDate);
 
 	ALTER TABLE users.tblDelegationPersons
 	ADD CONSTRAINT ukDelegationPersons UNIQUE (idDelegationPerson, idDelegation, idPerson, idRole);
