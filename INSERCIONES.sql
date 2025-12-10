@@ -245,6 +245,57 @@ INSERT INTO events.tblCountries (countryName, countryCode, nationality) VALUES
 ('Zimbabue', 'ZW', 'Zimbabuense(a)');
 GO
 
+
+INSERT INTO events.tblCareers (careerName) VALUES
+('Medicina'),
+('Microbiología'),
+('Odontología'),
+('Química y Farmacia'),
+('Enfermería'),
+('Nutrición'),
+('Arquitectura'),
+('Psicología'),
+('Música'),
+('Lenguas Extranjeras'),
+('T.U. en Terapia Funcional'),
+('Fonoaudiología'),
+('Lic. Operaciones Aeronáuticas'),
+('T.U. Operaciones de Vuelo'),
+('Periodismo'),
+('Informática Administrativa'),
+('T.U. Máquinas y herramientas control'),
+('Licenciatura en Derecho'),
+('Licenciatura en Pedagogía'),
+('Licenciatura en Ecoturismo'),
+('Técnico en Microfinanzas'),
+('T.U. en Radiotecnología'),
+('T.U. en Salud Familiar'),
+('Licenciatura en Antropología'),
+('Licenciatura en Trabajo Social'),
+('Licenciatura en Historia'),
+('Licenciatura en Letras'),
+('Licenciatura en Filosofía'),
+('Ingeniería Civil'),
+('Ingeniería Industrial'),
+('Ingeniería en Sistemas'),
+('Ingeniería en Ciencia de Los Datos'),
+('Ingeniería Biomédica'),
+('Ingeniería en Mecatrónica'),
+('Ingeniería en Electrónica'),
+('Ingeniería en Software'),
+('Ingeniería en Agronomía / Agroforestal'),
+('Licenciatura en Administración de Empresas'),
+('Licenciatura en Contaduría Pública y Auditoría'),
+('Licenciatura en Mercadotecnia / Marketing'),
+('Licenciatura en Recursos Humanos'),
+('Licenciatura en Diseño Gráfico'),
+('Licenciatura en Finanzas'),
+('Licenciatura en Comunicación Social'),
+('Gastronomía'),
+('Metalurgia'),
+('Animación digital y Diseño Interactivo'),
+('Otra');
+
 -- Insertar datos en events.tblEventTypes
 INSERT INTO events.tblEventTypes(eventTypeName)
 VALUES ('Deportivo'), ('Artistico'), ('Voluntariado'),('Otro ');
@@ -382,10 +433,10 @@ INSERT INTO users.tblGenders (genderName)
 VALUES ('Femenino'), ('Masculino');
 GO
 
-INSERT INTO users.tblPersons (identificationDocument, universityCardNumber, firstName, secondName, lastName, secondLastName, birthDate, idUniversity, idGender, idCountry) VALUES
-('MX123456', 'UNAM2024001', 'Juan', 'Carlos', 'Gómez', 'Pérez', '1998-05-15T00:00:00', 1, 2, 1),
-('US789012', 'UC2024001', 'Emily', 'Anne', 'Johnson', 'Smith', '1999-08-20T00:00:00', 2, 1, 1),
-('ES345678', 'UCM2024001', 'Carlos', 'Jose', 'Rodríguez', 'García', '1997-12-10T00:00:00', 3, 2, 1);
+INSERT INTO users.tblPersons (identificationDocument, universityCardNumber, firstName, secondName, lastName, secondLastName, birthDate, idUniversity, idGender, idCountry, idCareer) VALUES
+('MX123456', 'UNAM2024001', 'Juan', 'Carlos', 'Gómez', 'Pérez', '1998-05-15T00:00:00', 1, 2, 1, 1),
+('US789012', 'UC2024001', 'Emily', 'Anne', 'Johnson', 'Smith', '1999-08-20T00:00:00', 2, 1, 1, 2),
+('ES345678', 'UCM2024001', 'Carlos', 'Jose', 'Rodríguez', 'García', '1997-12-10T00:00:00', 3, 2, 1, 3);
 GO
 
 INSERT INTO events.tblUniversityStaffTypes(universityStaffTypeName)

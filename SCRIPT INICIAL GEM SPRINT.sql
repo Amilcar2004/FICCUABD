@@ -239,6 +239,11 @@ CREATE TABLE asset.tblLoginAttempts(
 		roleName NVARCHAR(100) NOT NULL,
 		idEventType INTEGER NOT NULL
 	);
+	CREATE TABLE events.tblCareers(
+		idCareer INTEGER IDENTITY PRIMARY KEY,
+		careerName NVARCHAR(100) NOT NULL
+	);
+
 
 
 -- CREACION TABLAS SCHEMA SPORTS
@@ -393,6 +398,7 @@ CREATE TABLE asset.tblLoginAttempts(
 		idUniversity INTEGER NOT NULL,
 		idGender TINYINT NOT NULL,
 		idCountry INTEGER NOT NULL,
+		idCareer INTEGER NOT NULL
 	);
 	GO
 
@@ -711,7 +717,8 @@ CREATE TABLE asset.tblLoginAttempts(
 	ALTER TABLE users.tblPersons
 	ADD CONSTRAINT fkPersons_Universities FOREIGN KEY (idUniversity) REFERENCES events.tblUniversities(idUniversity),
 		CONSTRAINT fkPersons_Genders FOREIGN KEY (idGender) REFERENCES users.tblGenders(idGender),
-		CONSTRAINT fkPersons_Country FOREIGN KEY (idCountry) REFERENCES events.tblCountries(idCountry);
+		CONSTRAINT fkPersons_Country FOREIGN KEY (idCountry) REFERENCES events.tblCountries(idCountry),
+		CONSTRAINT fkPersons_Career FOREIGN KEY (idCareer) REFERENCES events.tblCareers(idCareer)
 	GO
 
 	ALTER TABLE users.tblUsers
