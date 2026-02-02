@@ -46,6 +46,7 @@ BEGIN
 END;
 
 CREATE DATABASE DbGestionGem;
+ALTER DATABASE DbGestionGem COLLATE Latin1_General_100_CI_AS_SC_UTF8;
 GO
 
 USE DbGestionGem;
@@ -419,7 +420,7 @@ CREATE TABLE asset.tblLoginAttempts(
 	);
 	GO
 
-	/*
+
 	CREATE TABLE users.tblUserEvents(
 		idUserEvents INTEGER IDENTITY PRIMARY KEY,
 		idUser INTEGER NOT NULL,
@@ -427,9 +428,8 @@ CREATE TABLE asset.tblLoginAttempts(
 		isEnbled BIT NOT NULL DEFAULT 1,
 	);
 	GO
-	*/
 
-	-- PREGUNTAR INVESTIGAR COMO SE VA A MANEJAR
+
 	CREATE TABLE users.tblUserRoles (
 		idUserRole INTEGER IDENTITY PRIMARY KEY,
 		roleName NVARCHAR(50) NOT NULL,
@@ -446,7 +446,7 @@ CREATE TABLE asset.tblLoginAttempts(
 	);
 	GO
 
-	/*
+	
 	CREATE TABLE users.tblRoleActions (
 		idAction INTEGER IDENTITY PRIMARY KEY,
 		actionName NVARCHAR(150) NOT NULL,
@@ -457,12 +457,19 @@ CREATE TABLE asset.tblLoginAttempts(
 
 	CREATE TABLE users.tblRoleActionRelations (
 		idUserRoleAction INTEGER IDENTITY PRIMARY KEY,
-		idUser INTEGER NOT NULL,
+		idUserRole INTEGER NOT NULL,
 		idAction INTEGER NOT NULL,
 		isActive BIT NOT NULL DEFAULT 1
 	);
+	
+	CREATE TABLE users.tblEndpointActions (
+    idEndpointAction INTEGER IDENTITY PRIMARY KEY,
+    httpMethod NVARCHAR(10) NOT NULL,      -- GET, POST, PUT, DELETE
+    pathPattern NVARCHAR(255) NOT NULL,    -- /users, /users/:id, /users/*
+    idAction INTEGER NOT NULL,            
+    isActive BIT NOT NULL DEFAULT 1
+	);
 	GO
-	*/
 
 -- CONSTRAINT (UNIQUE) SCHEMA EVENTS
 	ALTER TABLE events.tblEventTypes
@@ -517,11 +524,11 @@ CREATE TABLE asset.tblLoginAttempts(
 	ADD CONSTRAINT ukroleName UNIQUE (roleName);
 	GO
 
-	/*
+	
 	ALTER TABLE users.tblRoleActions
 	ADD CONSTRAINT ukactionName UNIQUE (actionName);
 	GO
-	*/
+	
 
 -- CONSTRAINT (UNIQUE) SCHEMA SPOTRTS
 	ALTER TABLE sports.tblSportDelegations
@@ -736,12 +743,15 @@ CREATE TABLE asset.tblLoginAttempts(
 		CONSTRAINT fkUserRoleRelations_Roles FOREIGN KEY (idUserRole) REFERENCES users.tblUserRoles(idUserRole);
 	GO
 
-	/*
+	
 	ALTER TABLE users.tblRoleActionRelations
 	ADD CONSTRAINT fkRoleActionRelations_Roles FOREIGN KEY (idUserRole) REFERENCES users.tblUserRoles(idUserRole),
 		CONSTRAINT fkRoleActionRelations_Actions FOREIGN KEY (idAction) REFERENCES users.tblRoleActions(idAction);
 	GO
-	*/
+	
+	ALTER TABLE users.tblEndpointActions
+	ADD CONSTRAINT fkEndpointActions_RoleActions FOREIGN KEY (idAction) REFERENCES users.tblRoleActions(idAction);	
+	GO
 
 	ALTER TABLE users.tblDelegationPersons
 	ADD CONSTRAINT fkDelegationPersons_Delegations FOREIGN KEY (idDelegation) REFERENCES events.tblDelegations(idDelegation),
