@@ -192,10 +192,10 @@ CREATE TABLE asset.tblLoginAttempts(
 	CREATE TABLE events.tblUniversityStaffs(
 		idUniversityStaff INTEGER IDENTITY PRIMARY KEY,
 		idUniversity INTEGER NOT NULL,
-		idUniversityStaffType INTEGER NOT NULL,
 		idPerson INTEGER NOT NULL,
 		idEvent INTEGER NOT NULL,
-		idCommission INTEGER NOT NULL
+		idCommission INTEGER NOT NULL,
+		idRole INTEGER NOT NULL
 	);
 	GO
 
@@ -203,24 +203,9 @@ CREATE TABLE asset.tblLoginAttempts(
 		idCommission INTEGER IDENTITY PRIMARY KEY,
 		commissionName NVARCHAR(100) NOT NULL
 	);
-	GO 
-	CREATE TABLE events.tblUniversityStaffTypes(
-		idUniversityStaffType INTEGER IDENTITY PRIMARY KEY,
-		universityStaffTypeName NVARCHAR(100) NOT NULL
-	);
 	GO
-	CREATE TABLE events.tblAuthorityPositions(
-		idAuthorityPosition INTEGER IDENTITY PRIMARY KEY,
-		idPosition INTEGER NOT NULL,
-		idUniversityStaff INTEGER NOT NULL,
-		positionOther NVARCHAR(150)
-	);
-	GO
+
 	
-	CREATE TABLE events.tblPositions(
-		idPosition INTEGER IDENTITY PRIMARY KEY,
-		positionName NVARCHAR(100) NOT NULL
-	); 
 
 	CREATE TABLE events.tblDoctorSpecialties(
 		idDoctorSpecialty INTEGER IDENTITY PRIMARY KEY,
@@ -238,8 +223,30 @@ CREATE TABLE asset.tblLoginAttempts(
 	CREATE TABLE events.tblRoles(
 		idRole INTEGER IDENTITY PRIMARY KEY,
 		roleName NVARCHAR(100) NOT NULL,
-		idEventType INTEGER NOT NULL
+		idRoleCategory INTEGER NOT NULL,
+		idAccessLevel INTEGER NOT NULL
 	);
+	GO
+	CREATE TABLE events.tblRolesCategories(
+		idRoleCategory INTEGER IDENTITY PRIMARY KEY,
+		roleCategoryName NVARCHAR(100) NOT NULL,
+		roleCategoryDescription NVARCHAR(100) NOT NULL,
+		idEventType INTEGER NOT NULL,
+	);
+	GO
+	-- tblPersonRoles eliminada: delegación y staff almacenan idRole directamente
+	-- Evento en delegación: delegation idEvent
+	-- Evento en staff: idEvent en tblUniversityStaffs
+
+	CREATE TABLE events.tblEventAccessLevel(
+		idAccessLevel INTEGER IDENTITY PRIMARY KEY,
+		accessLevelCode NVARCHAR(100) NOT NULL,
+		accessLevelName NVARCHAR(100) NOT NULL,
+		iconKey NVARCHAR(100) NULL,
+		accessLevelDescription NVARCHAR(200) NOT NULL
+	);
+	GO
+	
 	CREATE TABLE events.tblCareers(
 		idCareer INTEGER IDENTITY PRIMARY KEY,
 		careerName NVARCHAR(100) NOT NULL
@@ -394,12 +401,12 @@ CREATE TABLE asset.tblLoginAttempts(
 		secondName NVARCHAR(120),
 		lastName NVARCHAR(120) NOT NULL,
 		secondLastName NVARCHAR(120),
-		birthDate DATETIME,
+		birthDate DATETIME NULL,
 		registerDate DATETIME NOT NULL DEFAULT SYSDATETIME(),
 		idUniversity INTEGER NOT NULL,
 		idGender TINYINT NOT NULL,
 		idCountry INTEGER NOT NULL,
-		idCareer INTEGER NOT NULL
+		idCareer INTEGER NULL
 	);
 	GO
 
@@ -410,6 +417,8 @@ CREATE TABLE asset.tblLoginAttempts(
 		idRole INTEGER NOT NULL
 	);
 	GO
+
+	
 
 	CREATE TABLE users.tblUsers (
 		idUser INTEGER PRIMARY KEY,
@@ -484,18 +493,9 @@ CREATE TABLE asset.tblLoginAttempts(
 	ADD CONSTRAINT ukDescription UNIQUE(description);
 	GO
 
-	ALTER TABLE events.tblUniversityStaffTypes
-	ADD CONSTRAINT ukUniversityStaffType UNIQUE (idUniversityStaffType);
+	CREATE UNIQUE INDEX ukRolesCategories_Catalog ON events.tblRolesCategories(roleCategoryName);
 	GO
 
-	ALTER TABLE events.tblPositions
-	ADD CONSTRAINT ukPositionName UNIQUE (positionName);
-	GO
-
-	ALTER TABLE events.tblAuthorityPositions 
-	ADD CONSTRAINT ukUniversityStaff_Position UNIQUE (idUniversityStaff, idPosition),
-	CONSTRAINT ukUniversityStaff_Position_PositionOther UNIQUE (idUniversityStaff, idPosition, positionOther);
-	GO
 
 	ALTER TABLE events.tblDoctorSpecialties
 	ADD CONSTRAINT ukDoctorSpecialties_Specialty UNIQUE (idDoctorSpecialty, idSpecialty),
@@ -511,8 +511,15 @@ CREATE TABLE asset.tblLoginAttempts(
 	GO
 
 	ALTER TABLE events.tblRoles
-	ADD CONSTRAINT ukRoleName UNIQUE (roleName);
+	ADD CONSTRAINT ukRole_RoleName_EventType_Event UNIQUE (roleName, idRoleCategory, idAccessLevel);
 	GO
+
+	-- ukPerson_Role_Event eliminado (tblPersonRoles eliminada)
+
+	ALTER TABLE events.tblEventAccessLevel
+	ADD CONSTRAINT ukEventAccessLevelName UNIQUE (accessLevelName);
+	GO
+
 
 
 -- CONSTRAINT (UNIQUE) SCHEMA  USUARIOS 
@@ -532,7 +539,7 @@ CREATE TABLE asset.tblLoginAttempts(
 
 -- CONSTRAINT (UNIQUE) SCHEMA SPOTRTS
 	ALTER TABLE sports.tblSportDelegations
-	ADD CONSTRAINT ukDelegation_Gender_Sport UNIQUE (idGender);
+	ADD CONSTRAINT ukDelegation_Gender_Sport UNIQUE (idSportDelegation, idGender);
 	GO
 
 	/*
@@ -574,6 +581,10 @@ CREATE TABLE asset.tblLoginAttempts(
 	ON users.tblUsers(email)
 	WHERE email IS NOT NULL
 	GO
+	CREATE UNIQUE INDEX idxPersons_identificationDocument
+	ON users.tblPersons(identificationDocument)
+	WHERE identificationDocument IS NOT NULL
+	GO
 
 	-- Creacion de Indices de busquedas de inicio de Sesion 
 	CREATE INDEX IX_tblLoginAttempts_email_date 
@@ -582,12 +593,23 @@ CREATE TABLE asset.tblLoginAttempts(
 	CREATE INDEX IX_tblLoginAttempts_date 
 	ON asset.tblLoginAttempts(attemptDate);
 
-	ALTER TABLE users.tblDelegationPersons
-	ADD CONSTRAINT ukDelegationPersons UNIQUE (idDelegationPerson, idDelegation, idPerson, idRole);
+	ALTER TABLE events.tblUniversityStaffs
+	ADD CONSTRAINT ukUniversityStaff_Event_Person_RoleCategory_University UNIQUE (idEvent, idPerson, idUniversity);
 	GO
+-- CONSTRAINT (UNIQUE) SCHEMA USERS
+	ALTER TABLE users.tblDelegationPersons
+	ADD CONSTRAINT ukDelegationPersons UNIQUE (idDelegation, idPerson);
+	GO
+
 	ALTER TABLE users.tblPersons
 	ADD CONSTRAINT ukidentificationDocument UNIQUE (identificationDocument);
 	GO
+
+	-- Necesario para FK fkUniversityStaff_Person_University: la tabla referenciada debe tener PK o UNIQUE en (idPerson, idUniversity)
+	ALTER TABLE users.tblPersons
+	ADD CONSTRAINT ukPerson_University UNIQUE (idPerson, idUniversity);
+	GO
+
 
 -- CONSTRAINT (CHECK) SCHEMA USERS
 	ALTER TABLE users.tblPersons 
@@ -610,8 +632,8 @@ CREATE TABLE asset.tblLoginAttempts(
 	GO
 
 	ALTER TABLE events.tblDelegations
-	ADD CONSTRAINT fkDelegations_Universities FOREIGN KEY (idUniversity) REFERENCES events.tblUniversities(idUniversity),
-	CONSTRAINT fkDelegations_DelegationType FOREIGN KEY (idDelegationType) REFERENCES events.tblDelegationType(idDelegationType);
+	ADD CONSTRAINT fkDelegation_University FOREIGN KEY (idUniversity) REFERENCES events.tblUniversities(idUniversity),
+	CONSTRAINT fkDelegation_DelegationType FOREIGN KEY (idDelegationType) REFERENCES events.tblDelegationType(idDelegationType);
 	GO
 
 	ALTER TABLE events.tblDelegationType
@@ -619,10 +641,9 @@ CREATE TABLE asset.tblLoginAttempts(
 	GO
 
 	ALTER TABLE events.tblUniversityStaffs
-	ADD CONSTRAINT fkDelegationPersons_PersonsUniversityStaff_University FOREIGN KEY (idUniversity) REFERENCES events.tblUniversities(idUniversity),
-	CONSTRAINT  fkUniversityStaff_UniversityStaffType FOREIGN KEY (idUniversityStaffType) REFERENCES events.tblUniversityStaffTypes(idUniversityStaffType),
-	CONSTRAINT	fkUniversityStaff_Person FOREIGN KEY (idPerson) REFERENCES users.tblPersons(idPerson),
-	CONSTRAINT	fkUniversityStaff_Event FOREIGN KEY (idEvent) REFERENCES events.tblevents(idEvent),
+	ADD 
+	CONSTRAINT	fkUniversityStaff_Person_University FOREIGN KEY (idPerson,idUniversity) REFERENCES users.tblPersons(idPerson,idUniversity),
+	CONSTRAINT	fkUniversityStaff_Event FOREIGN KEY (idEvent) REFERENCES events.tblEvents(idEvent),
 	CONSTRAINT	fkUniversityStaff_Commission FOREIGN KEY (idCommission) REFERENCES events.tblCommissions(idCommission);
 	GO
 	
@@ -631,10 +652,6 @@ CREATE TABLE asset.tblLoginAttempts(
 	CONSTRAINT fkSpeakers_SpeakerCategory FOREIGN KEY (idSpeakerCategory) REFERENCES events.tblSpeakerCategories(idSpeakerCategory);
 	GO
 
-	ALTER TABLE events.tblAuthorityPositions
-	ADD CONSTRAINT fkAuthorityPosition_UniversityStaff FOREIGN KEY (idUniversityStaff) REFERENCES events.tblUniversityStaffs(idUniversityStaff),
-	CONSTRAINT fkAuthorityPosition_Position FOREIGN KEY (idPosition) REFERENCES events.tblPositions(idPosition);
-	GO
 
 	ALTER TABLE events.tblDoctorSpecialties
 	ADD CONSTRAINT fkDoctorSpecialties_UniversityStaff FOREIGN KEY (idUniversityStaff)  REFERENCES events.tblUniversityStaffs (idUniversityStaff),
@@ -648,8 +665,21 @@ CREATE TABLE asset.tblLoginAttempts(
 	GO
 
 	ALTER TABLE events.tblRoles
-	ADD CONSTRAINT fkRoles_EventTypes FOREIGN KEY (idEventType) REFERENCES events.tblEventTypes(idEventType);
+	ADD 
+	CONSTRAINT fkRoles_AccessLevel FOREIGN KEY (idAccessLevel) REFERENCES events.tblEventAccessLevel(idAccessLevel),
+	CONSTRAINT fkRoles_RoleCategory FOREIGN KEY (idRoleCategory) REFERENCES events.tblRolesCategories(idRoleCategory);
 	GO
+
+	ALTER TABLE events.tblRolesCategories
+	ADD 
+		CONSTRAINT fkRoleCategories_Event FOREIGN KEY (idEventType) REFERENCES events.tblEventTypes(idEventType);
+	GO
+
+	-- FK idRole en tblUniversityStaffs
+	ALTER TABLE events.tblUniversityStaffs
+	ADD CONSTRAINT fkUniversityStaff_Role FOREIGN KEY (idRole) REFERENCES events.tblRoles(idRole);
+	GO
+
 
 	
 -- CONSTRAINT (FOREIGN KEY) SCHEMA SPORTS
@@ -697,8 +727,7 @@ CREATE TABLE asset.tblLoginAttempts(
 	ALTER TABLE arts.tblArtDelegations
 	ADD CONSTRAINT fkArtDelegations_Delegation FOREIGN KEY (idArtDelegation) REFERENCES  events.tblDelegations (idDelegation),
 	CONSTRAINT fkArtDelegations_Proposals FOREIGN KEY (idProposal) REFERENCES  arts.tblProposals (idProposal),
-	CONSTRAINT fkArtDelegations_ArtModality FOREIGN KEY (idArtModality) REFERENCES  arts.tblArtModalities (idArtModality),
-	CONSTRAINT fkArtDelegations_ArtCategory FOREIGN KEY (idArtModality) REFERENCES  arts.tblArtModalities (idArtModality);
+	CONSTRAINT fkArtDelegations_ArtModality FOREIGN KEY (idArtModality) REFERENCES  arts.tblArtModalities (idArtModality);
 	GO
 
 	ALTER TABLE arts.tblArts
@@ -756,5 +785,7 @@ CREATE TABLE asset.tblLoginAttempts(
 	ALTER TABLE users.tblDelegationPersons
 	ADD CONSTRAINT fkDelegationPersons_Delegations FOREIGN KEY (idDelegation) REFERENCES events.tblDelegations(idDelegation),
 		CONSTRAINT fkDelegationPersons_Persons FOREIGN KEY (idPerson) REFERENCES users.tblPersons(idPerson),
-		CONSTRAINT fkDelegationPersons_Roles FOREIGN KEY (idRole) REFERENCES events.tblRoles(idRole);
+		CONSTRAINT fkDelegationPersons_Role FOREIGN KEY (idRole) REFERENCES events.tblRoles(idRole);
 	GO
+
+	

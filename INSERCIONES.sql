@@ -394,27 +394,77 @@ VALUES
 GO
 
 -- Insertar datos en events.tblEvents
+-- Orden: 1=Juegos, 2=Congreso, 3=FICCUA (artes)
 INSERT INTO events.tblEvents (eventName, startDate, endDate, idEventType) VALUES
 ('Juegos Universitarios 2024',  '20250728 00:01:00.000', '20250801 23:59:00.000', 1),
 ('Congreso Científico Internacional',  '20250728 00:01:00.000', '20260601 23:59:00.000', 3),
 ('Festival Interuniversitario Centroamericano de la Cultura y Arte (FICCUA),', '20250728 00:01:00.000', '20260801 23:59:00.000', 2);
 
--- Insertar datos en events.tblRoles
-INSERT INTO events.tblRoles (roleName, idEventType) VALUES
-('Deportista', 1),
-('Artista', 2);
+-- Niveles de acceso físico por evento
+INSERT INTO events.tblEventAccessLevel (accessLevelCode, accessLevelName, iconKey, accessLevelDescription) VALUES
+('1', 'Nivel 1', NULL, 'Acceso estratégico para autoridades y jefaturas (Acceso a todas las Instalaciones)'),
+('2', 'Nivel 2', NULL, 'Acceso operativo para Director de delegación'),
+('3', 'Nivel 3', NULL, 'Acceso de soporte para staff y Representantes de Delegación'),
+('5', 'Nivel 5', NULL, 'Acceso especializado para salud, prensa y ponencias');
 GO
 
+-- Roles para FICCUA (evento 3, tipo artístico 2)
+-- Participante y Staff: Nivel 3 | Director: Nivel 2
+-- Insertar categorías de roles para FICCUA (evento tipo artístico)
+	INSERT INTO events.tblRolesCategories (roleCategoryName, roleCategoryDescription, idEventType)
+	VALUES 
+		('Autoridad', 'Autoridades institucionales y jefaturas', 2),  -- idEventType = 2 para artístico
+		('Delegación', 'Personal de la delegación artística', 2),
+		('Médico', 'Personal médico y de salud', 2),
+		('Periodista', 'Personal de prensa y comunicación', 2),
+		('Conferencista', 'Conferencistas y ponentes', 2);
+	GO
+
+
+INSERT INTO events.tblRoles (roleName, idRoleCategory, idAccessLevel) VALUES
+-- Autoridades (idAccessLevel = 1 para Nivel 1)
+('Rector(a)', 1, 1),          
+('Vicerrector(a)', 1, 1),      
+('Director(a)', 1, 1),          
+('Delegado CSUCA', 1, 1),       
+('Jefe de Misión', 1, 1),       
+('Jefe de Delegación', 1, 1),   
+
+-- Delegación (Director: idAccessLevel = 2, Artista/Staff: idAccessLevel = 3)
+('Director Artístico', 2, 2),   
+('Artista', 2, 3),               
+('Staff', 2, 3),   
+
+-- Personal de Salud (idAccessLevel = 4 para Nivel 5)
+('Médico', 3, 4),              
+('Fisioterapeuta', 3, 4),       
+('Kinesiólogo', 3, 4),          
+('Enfermero', 3, 4),            
+('Odontólogo', 3, 4),          
+('Psicólogo', 3, 4),            
+('Otro Personal Salud', 3, 4), 
+
+-- Periodista (idAccessLevel = 4 para Nivel 5)
+('Periodista', 4, 4),           
+
+-- Conferencistas (idAccessLevel = 4 para Nivel 5)
+('Docente Conferencista', 5, 4),       
+('Administrativo Conferencista', 5, 4), 
+('Gestor Académico', 5, 4),            
+('Estudiante Conferencista', 5, 4);    
+
+
 -- Insertar datos en events.tblDelegationType
+-- idEvent: 1=Juegos, 2=Congreso, 3=FICCUA (artes)
 INSERT INTO events.tblDelegationType (delegationName, idEvent, hasModalities, hasCategories, hasTests) VALUES
 ('Fútbol',1,0, 1, 1),
 ('Atletismo',1, 0, 0, 1), 
-('Artes Visuales',2, 1, 1, 0),
-('Cine',2, 1, 1, 0),
-('Artes Escénicas',2, 1, 1, 0 ),
-('Literatura',2, 1, 0, 0),
-('Música',2, 1, 1, 0),
-('Floreo',2, 0, 0, 0);
+('Artes Visuales',3, 1, 1, 0),
+('Cine',3, 1, 1, 0),
+('Artes Escénicas',3, 1, 1, 0 ),
+('Literatura',3, 1, 0, 0),
+('Música',3, 1, 1, 0),
+('Floreo',3, 0, 0, 0);
 GO
 
 -- Insertar datos en events.tblConfigurationValueTypes
@@ -439,13 +489,6 @@ INSERT INTO users.tblPersons (identificationDocument, universityCardNumber, firs
 ('ES345678', 'UCM2024001', 'Carlos', 'Jose', 'Rodríguez', 'García', '1997-12-10T00:00:00', 3, 2, 1, 3);
 GO
 
-INSERT INTO events.tblUniversityStaffTypes(universityStaffTypeName)
-VALUES ('Autoridad'),
-('Medico'),
-('Conferencista'),
-('Periodista');
-GO
-
 INSERT INTO events.tblCommissions(commissionName) 
 VALUES ('Técnica Deportiva'),('Arte'),('Instalaciones'),('Alimentación'),
 ('Logística'),('Voluntariado'),('Protocolo'),('Tecnológica /Acreditación'),
@@ -454,12 +497,8 @@ VALUES ('Técnica Deportiva'),('Arte'),('Instalaciones'),('Alimentación'),
 ('Comité Coordinador');
 
 GO
--- Insertar datos en events.tblUniversityStaffs
-INSERT INTO events.tblUniversityStaffs (idUniversity, idUniversityStaffType, idPerson, idEvent, idCommission) VALUES
-(1, 1, 1, 1, 1),
-(2, 2, 2, 1, 2), 
-(3, 2, 1, 3, 3);
- 
+
+
 -- Insertar datos en sports.tblSportTypes
 INSERT INTO sports.tblSportTypes (sportTypeName) VALUES
 ('Deporte de Equipo'),
@@ -631,10 +670,7 @@ INSERT INTO arts.tblArtCategoriesModalities(idArtModality,idArtCategory) VALUES
 --(1),
 --(2);
 
--- Insertar datos en users.tblDelegationPersons
---INSERT INTO users.tblDelegationPersons (idDelegation, idPerson, idRole) VALUES
---(1, 1, 1),
---(2, 2, 2);
+
 
 -- Insertar datos en users.tblUsers
 INSERT INTO users.tblUsers (idUser, username, email, password, isEnabled) VALUES
@@ -689,8 +725,11 @@ INSERT INTO users.tblRoleActionRelations (idUserRole, idAction, isActive) VALUES
 -- Endpoints actuales -> accion (SYSADM)
 INSERT INTO users.tblEndpointActions (httpMethod, pathPattern, idAction, isActive) VALUES
 ('GET',  '/persons', 1, 1),
+('GET',  '/persons/identificationDocument/:identificationDocument', 1, 1),
 ('GET',  '/persons/:id', 1, 1),
 ('POST', '/persons', 1, 1),
+('PUT', '/persons/:id', 1, 1),
+('DELETE', '/persons/:id', 1, 1),
 ('GET',  '/genders', 1, 1),
 ('GET',  '/userroles', 1, 1),
 ('GET',  '/userroles/:id', 1, 1),
@@ -707,6 +746,8 @@ INSERT INTO users.tblEndpointActions (httpMethod, pathPattern, idAction, isActiv
 ('GET',  '/careers', 1, 1),
 ('POST', '/careers', 1, 1),
 ('GET',  '/roles', 1, 1),
+('GET',  '/roles/event-type/:idEventType/delegation', 1, 1),
+('GET',  '/roles/event/:idEvent/delegation', 1, 1),
 ('GET',  '/art/types', 1, 1),
 ('GET',  '/art/event/:idEvent', 1, 1),
 ('GET',  '/art/:id', 1, 1),
@@ -718,21 +759,35 @@ INSERT INTO users.tblEndpointActions (httpMethod, pathPattern, idAction, isActiv
 ('GET',  '/stafftypes', 1, 1),
 ('POST', '/delegations/art', 1, 1),
 ('GET',  '/delegations/:id', 1, 1),
+('PUT',  '/delegations/:id', 1, 1),
+('DELETE','/delegations/:id', 1, 1),
 ('GET',  '/delegations/university/:idUniversity', 1, 1),
 ('GET',  '/delegations/university/:idUniversity/:idDelegationType', 1, 1),
-('GET',  '/delegations/persons/:idDelegation', 1, 1);
+('GET',  '/delegations/persons/:idDelegation', 1, 1),
+('POST', '/delegations/:idDelegation/persons', 1, 1),
+('DELETE','/delegations/persons/:idDelegation/:idPerson', 1, 1);
 
 -- Endpoints -> accion (Representante Universitario)
 INSERT INTO users.tblEndpointActions (httpMethod, pathPattern, idAction, isActive) VALUES
+('GET',  '/persons/identificationDocument/:identificationDocument', 2, 1),
+('POST', '/persons', 1, 1),
+('PUT', '/persons/:id', 1, 1),
+('DELETE', '/persons/:id', 1, 1),
 ('GET',  '/countries', 2, 1),
 ('GET',  '/countries/:id', 2, 1),
 ('GET',  '/universities/:id', 2, 1),
+('GET',  '/roles/event-type/:idEventType/delegation', 2, 1),
+('GET',  '/roles/event/:idEvent/delegation', 2, 1),
 ('GET',  '/art/types', 2, 1),
 ('GET',  '/art/event/:idEvent', 2, 1),
 ('GET',  '/art/:id', 2, 1),
 ('GET',  '/art/modalities/:idDelegationType', 2, 1),
 ('GET',  '/art/categories/:idArtModality', 2, 1),
 ('GET',  '/delegations/:id', 2, 1),
+('PUT',  '/delegations/:id', 1, 1),
+('DELETE','/delegations/:id', 1, 1),
 ('GET',  '/delegations/university/:idUniversity', 2, 1),
 ('GET',  '/delegations/university/:idUniversity/:idDelegationType', 2, 1),
-('GET',  '/delegations/persons/:idDelegation', 2, 1);
+('GET',  '/delegations/persons/:idDelegation', 2, 1),
+('POST', '/delegations/:idDelegation/persons', 1, 1),
+('DELETE','/delegations/persons/:idDelegation/:idPerson', 1, 1);
