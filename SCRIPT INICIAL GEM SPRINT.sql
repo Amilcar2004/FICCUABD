@@ -1,7 +1,7 @@
  -- SCRIPT INICIAL DE BASE DE DATOS GEM
 
 USE MASTER;
-IF EXISTS 
+/*IF EXISTS 
     (SELECT name  
      FROM master.sys.server_principals
      WHERE name = 'usrprueba')
@@ -44,7 +44,7 @@ BEGIN
 	ALTER DATABASE DbGestionGem SET SINGLE_USER WITH ROLLBACK IMMEDIATE;
 	DROP DATABASE IF EXISTS DbGestionGem;
 END;
-
+*/
 CREATE DATABASE DbGestionGem;
 ALTER DATABASE DbGestionGem COLLATE Latin1_General_100_CI_AS_SC_UTF8;
 GO

@@ -765,14 +765,15 @@ INSERT INTO users.tblEndpointActions (httpMethod, pathPattern, idAction, isActiv
 ('GET',  '/delegations/university/:idUniversity/:idDelegationType', 1, 1),
 ('GET',  '/delegations/persons/:idDelegation', 1, 1),
 ('POST', '/delegations/:idDelegation/persons', 1, 1),
-('DELETE','/delegations/persons/:idDelegation/:idPerson', 1, 1);
+('DELETE','/delegations/persons/:idDelegation/:idPerson', 1, 1),
+('GET','/delegations/roles/all', 1, 1);
 
 -- Endpoints -> accion (Representante Universitario)
 INSERT INTO users.tblEndpointActions (httpMethod, pathPattern, idAction, isActive) VALUES
 ('GET',  '/persons/identificationDocument/:identificationDocument', 2, 1),
-('POST', '/persons', 1, 1),
-('PUT', '/persons/:id', 1, 1),
-('DELETE', '/persons/:id', 1, 1),
+('POST', '/persons', 2, 1),
+('PUT', '/persons/:id', 2, 1),
+('DELETE', '/persons/:id', 2, 1),
 ('GET',  '/countries', 2, 1),
 ('GET',  '/countries/:id', 2, 1),
 ('GET',  '/universities/:id', 2, 1),
@@ -784,10 +785,12 @@ INSERT INTO users.tblEndpointActions (httpMethod, pathPattern, idAction, isActiv
 ('GET',  '/art/modalities/:idDelegationType', 2, 1),
 ('GET',  '/art/categories/:idArtModality', 2, 1),
 ('GET',  '/delegations/:id', 2, 1),
-('PUT',  '/delegations/:id', 1, 1),
-('DELETE','/delegations/:id', 1, 1),
+('PUT',  '/delegations/:id',2, 1),
+('DELETE','/delegations/:id', 2, 1),
 ('GET',  '/delegations/university/:idUniversity', 2, 1),
 ('GET',  '/delegations/university/:idUniversity/:idDelegationType', 2, 1),
 ('GET',  '/delegations/persons/:idDelegation', 2, 1),
-('POST', '/delegations/:idDelegation/persons', 1, 1),
-('DELETE','/delegations/persons/:idDelegation/:idPerson', 1, 1);
+('POST', '/delegations/:idDelegation/persons', 2, 1),
+('DELETE','/delegations/persons/:idDelegation/:idPerson', 2, 1),
+('GET','/delegations/roles/all', 2, 1);
+
