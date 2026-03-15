@@ -1,8 +1,8 @@
 USE DbGestionGem;
 GO
 
--- Insertar datos en events.tblCountries
-INSERT INTO events.tblCountries (countryName, countryCode, nationality) VALUES
+-- Insertar datos en ficcua2026.tblCountries
+INSERT INTO ficcua2026.tblCountries (countryName, countryCode, nationality) VALUES
 ('Afganistán', 'AF', 'Afgano(a)'),
 ('Islas Gland', 'AX', 'Alandés(a)'),
 ('Albania', 'AL', 'Albanés(a)'),
@@ -246,7 +246,7 @@ INSERT INTO events.tblCountries (countryName, countryCode, nationality) VALUES
 GO
 
 
-INSERT INTO events.tblCareers (careerName) VALUES
+INSERT INTO ficcua2026.tblCareers (careerName) VALUES
 ('Medicina'),
 ('Microbiología'),
 ('Odontología'),
@@ -296,132 +296,122 @@ INSERT INTO events.tblCareers (careerName) VALUES
 ('Animación digital y Diseño Interactivo'),
 ('Otra');
 
--- Insertar datos en events.tblEventTypes
-INSERT INTO events.tblEventTypes(eventTypeName)
-VALUES ('Deportivo'), ('Artistico'), ('Voluntariado'),('Otro ');
-GO
+-- ficcua2026.tblEvents eliminada: modelo de evento único global (ver RegistrodeCambios.md)
 
-INSERT INTO events.tblUniversities (universityName, acronym, idCountry)
+INSERT INTO ficcua2026.tblUniversities (universityName, acronym, idCountry)
 VALUES
 ('Consejo Superior Universitario Centroamericano','CSUCA',
-    (SELECT idCountry FROM events.tblCountries WHERE countryName = 'Honduras')),
+    (SELECT idCountry FROM ficcua2026.tblCountries WHERE countryName = 'Honduras')),
 ('Universidad Nacional Autónoma de Honduras', 'UNAH', 
-    (SELECT idCountry FROM events.tblCountries WHERE countryName = 'Honduras'));
+    (SELECT idCountry FROM ficcua2026.tblCountries WHERE countryName = 'Honduras'));
 
 -- Belice
-INSERT INTO events.tblUniversities (universityName, acronym, idCountry)
+INSERT INTO ficcua2026.tblUniversities (universityName, acronym, idCountry)
 VALUES ('Universidad de Belice', 'UB',
-(SELECT idCountry FROM events.tblCountries WHERE countryName = 'Belice'));
+(SELECT idCountry FROM ficcua2026.tblCountries WHERE countryName = 'Belice'));
 
 -- Guatemala
-INSERT INTO events.tblUniversities (universityName, acronym, idCountry)
+INSERT INTO ficcua2026.tblUniversities (universityName, acronym, idCountry)
 VALUES ('Universidad de San Carlos', 'USAC', 
-(SELECT idCountry FROM events.tblCountries WHERE countryName = 'Guatemala'));
+(SELECT idCountry FROM ficcua2026.tblCountries WHERE countryName = 'Guatemala'));
 
 -- El Salvador
-INSERT INTO events.tblUniversities (universityName, acronym, idCountry)
+INSERT INTO ficcua2026.tblUniversities (universityName, acronym, idCountry)
 VALUES ('Universidad de El Salvador', 'UES', 
-(SELECT idCountry FROM events.tblCountries WHERE countryName = 'El Salvador'));
+(SELECT idCountry FROM ficcua2026.tblCountries WHERE countryName = 'El Salvador'));
 
 -- Nicaragua
-INSERT INTO events.tblUniversities (universityName, acronym, idCountry)
+INSERT INTO ficcua2026.tblUniversities (universityName, acronym, idCountry)
 VALUES 
 ('Universidad Nacional Autónoma de Nicaragua – Managua', 'UNAN – Managua', 
-(SELECT idCountry FROM events.tblCountries WHERE countryName = 'Nicaragua')),
+(SELECT idCountry FROM ficcua2026.tblCountries WHERE countryName = 'Nicaragua')),
 ('Universidad Nacional Autónoma de Nicaragua – León', 'UNAN - León', 
-(SELECT idCountry FROM events.tblCountries WHERE countryName = 'Nicaragua')),
+(SELECT idCountry FROM ficcua2026.tblCountries WHERE countryName = 'Nicaragua')),
 ('Universidad Nacional de Ingeniería', 'UNI', 
-(SELECT idCountry FROM events.tblCountries WHERE countryName = 'Nicaragua')),
+(SELECT idCountry FROM ficcua2026.tblCountries WHERE countryName = 'Nicaragua')),
 ('Universidad Nacional Agraria', 'UNA-NI', 
-(SELECT idCountry FROM events.tblCountries WHERE countryName = 'Nicaragua')),
+(SELECT idCountry FROM ficcua2026.tblCountries WHERE countryName = 'Nicaragua')),
 ('Bluefields Indian & Caribbean University', 'BICU', 
-(SELECT idCountry FROM events.tblCountries WHERE countryName = 'Nicaragua')),
+(SELECT idCountry FROM ficcua2026.tblCountries WHERE countryName = 'Nicaragua')),
 ('Universidad de las Regiones Autónomas de la Costa Caribe Nicaragüense', 'URACCAN', 
-(SELECT idCountry FROM events.tblCountries WHERE countryName = 'Nicaragua'));
+(SELECT idCountry FROM ficcua2026.tblCountries WHERE countryName = 'Nicaragua'));
 
 -- Costa Rica
-INSERT INTO events.tblUniversities (universityName, acronym, idCountry)
+INSERT INTO ficcua2026.tblUniversities (universityName, acronym, idCountry)
 VALUES 
 ('Universidad de Costa Rica', 'UCR', 
-(SELECT idCountry FROM events.tblCountries WHERE countryName = 'Costa Rica')),
+(SELECT idCountry FROM ficcua2026.tblCountries WHERE countryName = 'Costa Rica')),
 ('Universidad Nacional de Costa Rica', 'UNA-CR', 
-(SELECT idCountry FROM events.tblCountries WHERE countryName = 'Costa Rica')),
+(SELECT idCountry FROM ficcua2026.tblCountries WHERE countryName = 'Costa Rica')),
 ('Instituto Tecnológico de Costa Rica', 'TEC', 
-(SELECT idCountry FROM events.tblCountries WHERE countryName = 'Costa Rica')),
+(SELECT idCountry FROM ficcua2026.tblCountries WHERE countryName = 'Costa Rica')),
 ('Universidad Técnica Nacional', 'UTN', 
-(SELECT idCountry FROM events.tblCountries WHERE countryName = 'Costa Rica')),
+(SELECT idCountry FROM ficcua2026.tblCountries WHERE countryName = 'Costa Rica')),
 ('Universidad Estatal a Distancia', 'UNED', 
-(SELECT idCountry FROM events.tblCountries WHERE countryName = 'Costa Rica'));
+(SELECT idCountry FROM ficcua2026.tblCountries WHERE countryName = 'Costa Rica'));
 
 -- Panamá
-INSERT INTO events.tblUniversities (universityName, acronym, idCountry)
+INSERT INTO ficcua2026.tblUniversities (universityName, acronym, idCountry)
 VALUES 
-('Universida de Panamá', 'UP', 
-(SELECT idCountry FROM events.tblCountries WHERE countryName = 'Panamá')),
+('Universidad de Panamá', 'UP', 
+(SELECT idCountry FROM ficcua2026.tblCountries WHERE countryName = 'Panamá')),
 ('Universidad Autónoma de Chiriquí', 'UNACHI', 
-(SELECT idCountry FROM events.tblCountries WHERE countryName = 'Panamá')),
+(SELECT idCountry FROM ficcua2026.tblCountries WHERE countryName = 'Panamá')),
 ('Universidad Marítima Internacional de Panamá', 'UMIP', 
-(SELECT idCountry FROM events.tblCountries WHERE countryName = 'Panamá')),
+(SELECT idCountry FROM ficcua2026.tblCountries WHERE countryName = 'Panamá')),
 ('Universidad Especializada de las Américas', 'UDELAS', 
-(SELECT idCountry FROM events.tblCountries WHERE countryName = 'Panamá')),
+(SELECT idCountry FROM ficcua2026.tblCountries WHERE countryName = 'Panamá')),
 ('Universidad Tecnológica de Panamá', 'UTP', 
-(SELECT idCountry FROM events.tblCountries WHERE countryName = 'Panamá'));
+(SELECT idCountry FROM ficcua2026.tblCountries WHERE countryName = 'Panamá'));
 
 -- República Dominicana
-INSERT INTO events.tblUniversities (universityName, acronym, idCountry)
+INSERT INTO ficcua2026.tblUniversities (universityName, acronym, idCountry)
 VALUES ('Universidad Autónoma de Santo Domingo', 'UASD', 
-    (SELECT idCountry FROM events.tblCountries WHERE countryName = 'República Dominicana'));
+    (SELECT idCountry FROM ficcua2026.tblCountries WHERE countryName = 'República Dominicana'));
 
 -- Cuba
-INSERT INTO events.tblUniversities (universityName, acronym, idCountry)
+INSERT INTO ficcua2026.tblUniversities (universityName, acronym, idCountry)
 VALUES 
 ('Universidad de la Habana', 'UH', 
-(SELECT idCountry FROM events.tblCountries WHERE countryName = 'Cuba')),
+(SELECT idCountry FROM ficcua2026.tblCountries WHERE countryName = 'Cuba')),
 ('Universidad de Ciego de Ávila Maximo Gómez Baez', 'UNICA', 
-(SELECT idCountry FROM events.tblCountries WHERE countryName = 'Cuba')),
+(SELECT idCountry FROM ficcua2026.tblCountries WHERE countryName = 'Cuba')),
 ('Universidad de Ciencias de la Cultura Física y el Deporte Manuel Fajardo', 'UCCFD', 
-(SELECT idCountry FROM events.tblCountries WHERE countryName = 'Cuba'));
+(SELECT idCountry FROM ficcua2026.tblCountries WHERE countryName = 'Cuba'));
 
 -- Honduras
-INSERT INTO events.tblUniversities (universityName, acronym, idCountry)
+INSERT INTO ficcua2026.tblUniversities (universityName, acronym, idCountry)
 VALUES 
 ('Universidad Pedagógica Nacional Francisco Morazán', 'UPNFM', 
-(SELECT idCountry FROM events.tblCountries WHERE countryName = 'Honduras')),
+(SELECT idCountry FROM ficcua2026.tblCountries WHERE countryName = 'Honduras')),
 ('Universidad Nacional de Agricultura', 'UNAG', 
-(SELECT idCountry FROM events.tblCountries WHERE countryName = 'Honduras')),
+(SELECT idCountry FROM ficcua2026.tblCountries WHERE countryName = 'Honduras')),
 ('Universidad Nacional de Ciencias Forestales', 'UNACIFOR', 
-(SELECT idCountry FROM events.tblCountries WHERE countryName = 'Honduras'));
+(SELECT idCountry FROM ficcua2026.tblCountries WHERE countryName = 'Honduras'));
 GO
 
--- Insertar datos en events.tblEvents
--- Orden: 1=Juegos, 2=Congreso, 3=FICCUA (artes)
-INSERT INTO events.tblEvents (eventName, startDate, endDate, idEventType) VALUES
-('Juegos Universitarios 2024',  '20250728 00:01:00.000', '20250801 23:59:00.000', 1),
-('Congreso Científico Internacional',  '20250728 00:01:00.000', '20260601 23:59:00.000', 3),
-('Festival Interuniversitario Centroamericano de la Cultura y Arte (FICCUA),', '20250728 00:01:00.000', '20260801 23:59:00.000', 2);
-
--- Niveles de acceso físico por evento
-INSERT INTO events.tblEventAccessLevel (accessLevelCode, accessLevelName, iconKey, accessLevelDescription) VALUES
+-- Niveles de acceso físico (evento único global)
+INSERT INTO ficcua2026.tblEventAccessLevel (accessLevelCode, accessLevelName, iconKey, accessLevelDescription) VALUES
 ('1', 'Nivel 1', NULL, 'Acceso estratégico para autoridades y jefaturas (Acceso a todas las Instalaciones)'),
 ('2', 'Nivel 2', NULL, 'Acceso operativo para Director de delegación'),
 ('3', 'Nivel 3', NULL, 'Acceso de soporte para staff y Representantes de Delegación'),
+('4', 'Nivel 4', NULL, 'Falta descripcción de nivel 4'),
 ('5', 'Nivel 5', NULL, 'Acceso especializado para salud, prensa y ponencias');
 GO
 
--- Roles para FICCUA (evento 3, tipo artístico 2)
--- Participante y Staff: Nivel 3 | Director: Nivel 2
--- Insertar categorías de roles para FICCUA (evento tipo artístico)
-	INSERT INTO events.tblRolesCategories (roleCategoryName, roleCategoryDescription, idEventType)
+-- Roles para FICCUA
+	INSERT INTO ficcua2026.tblRolesCategories (roleCategoryName, roleCategoryDescription)
 	VALUES 
-		('Autoridad', 'Autoridades institucionales y jefaturas', 2),  -- idEventType = 2 para artístico
-		('Delegación', 'Personal de la delegación artística', 2),
-		('Médico', 'Personal médico y de salud', 2),
-		('Periodista', 'Personal de prensa y comunicación', 2),
-		('Conferencista', 'Conferencistas y ponentes', 2);
+		('Autoridad', 'Autoridades institucionales y jefaturas'),
+		('Delegación', 'Personal de la delegación artística'),
+		('Médico', 'Personal médico y de salud'),
+		('Periodista', 'Personal de prensa y comunicación'),
+		('Conferencista', 'Conferencistas y ponentes');
 	GO
 
 
-INSERT INTO events.tblRoles (roleName, idRoleCategory, idAccessLevel) VALUES
+-- tblEventAccessLevel: id 1=Nivel 1, 2=Nivel 2, 3=Nivel 3, 4=Nivel 5 (acceso especializado)
+INSERT INTO ficcua2026.tblRoles (roleName, idRoleCategory, idAccessLevel) VALUES
 -- Autoridades (idAccessLevel = 1 para Nivel 1)
 ('Rector(a)', 1, 1),          
 ('Vicerrector(a)', 1, 1),      
@@ -435,61 +425,58 @@ INSERT INTO events.tblRoles (roleName, idRoleCategory, idAccessLevel) VALUES
 ('Artista', 2, 3),               
 ('Staff', 2, 3),   
 
--- Personal de Salud (idAccessLevel = 4 para Nivel 5)
-('Médico', 3, 4),              
-('Fisioterapeuta', 3, 4),       
-('Kinesiólogo', 3, 4),          
-('Enfermero', 3, 4),            
-('Odontólogo', 3, 4),          
-('Psicólogo', 3, 4),            
-('Otro Personal Salud', 3, 4), 
+-- Personal de Salud, Periodista y Conferencistas 
+('Médico', 3, 5),              
+('Fisioterapeuta', 3, 5),       
+('Kinesiólogo', 3, 5),          
+('Enfermero', 3, 5),            
+('Odontólogo', 3, 5),          
+('Psicólogo', 3, 5),            
+('Otro Personal Salud', 3, 5), 
 
--- Periodista (idAccessLevel = 4 para Nivel 5)
-('Periodista', 4, 4),           
+('Periodista', 4, 5),           
 
--- Conferencistas (idAccessLevel = 4 para Nivel 5)
-('Docente Conferencista', 5, 4),       
-('Administrativo Conferencista', 5, 4), 
-('Gestor Académico', 5, 4),            
-('Estudiante Conferencista', 5, 4);    
-
-
--- Insertar datos en events.tblDelegationType
--- idEvent: 1=Juegos, 2=Congreso, 3=FICCUA (artes)
-INSERT INTO events.tblDelegationType (delegationName, idEvent, hasModalities, hasCategories, hasTests) VALUES
-('Fútbol',1,0, 1, 1),
-('Atletismo',1, 0, 0, 1), 
-('Artes Visuales',3, 1, 1, 0),
-('Cine',3, 1, 1, 0),
-('Artes Escénicas',3, 1, 1, 0 ),
-('Literatura',3, 1, 0, 0),
-('Música',3, 1, 1, 0),
-('Floreo',3, 0, 0, 0);
+('Docente Conferencista', 5, 5),       
+('Administrativo Conferencista', 5, 5), 
+('Gestor Académico', 5, 5),            
+('Estudiante Conferencista', 5, 5);
 GO
 
--- Insertar datos en events.tblConfigurationValueTypes
-INSERT INTO events.tblConfigurationValueTypes (configValueTypeName) VALUES
+-- Insertar datos en ficcua2026.tblDelegationType (FICCUA - artes)
+INSERT INTO ficcua2026.tblDelegationTypes (delegationName) VALUES
+('Artes Visuales'),
+('Cine'),
+('Artes Escénicas'),
+('Literatura'),
+('Música'),
+('Floreo');
+GO
+
+-- Insertar datos en ficcua2026.tblConfigurationValueTypes
+INSERT INTO ficcua2026.tblConfigurationValueTypes (configValueTypeName) VALUES
 ('Booleano'),
 ('Entero'),
 ('Texto');
+GO
 
--- Insertar datos en events.tblConfigurationParameters
-INSERT INTO events.tblConfigurationParameters (description) VALUES
+-- Insertar datos en ficcua2026.tblConfigurationParameters
+INSERT INTO ficcua2026.tblConfigurationParameters (description) VALUES
 ('Tiempo máximo de inscripción'),
 ('Permitir modificaciones'),
 ('Idioma predeterminado');
+GO
 
-INSERT INTO users.tblGenders (genderName)
+INSERT INTO ficcua2026.tblGenders (genderName)
 VALUES ('Femenino'), ('Masculino');
 GO
 
-INSERT INTO users.tblPersons (identificationDocument, universityCardNumber, firstName, secondName, lastName, secondLastName, birthDate, idUniversity, idGender, idCountry, idCareer) VALUES
-('MX123456', 'UNAM2024001', 'Juan', 'Carlos', 'Gómez', 'Pérez', '1998-05-15T00:00:00', 1, 2, 1, 1),
-('US789012', 'UC2024001', 'Emily', 'Anne', 'Johnson', 'Smith', '1999-08-20T00:00:00', 2, 1, 1, 2),
-('ES345678', 'UCM2024001', 'Carlos', 'Jose', 'Rodríguez', 'García', '1997-12-10T00:00:00', 3, 2, 1, 3);
+INSERT INTO ficcua2026.tblPersons (identificationDocument, universityCardNumber, firstName, secondName, lastName, secondLastName, birthDate, idUniversity, idGender, idCountry, idCareer) VALUES
+('MX123456', 'UNAM2024001', 'Juan', 'Carlos', 'Gómez', 'Pérez', '1998-05-15T00:00:00', 2, 2, (SELECT idCountry FROM ficcua2026.tblCountries WHERE countryName = 'Honduras'), 1),
+('US789012', 'UC2024001', 'Emily', 'Anne', 'Johnson', 'Smith', '1999-08-20T00:00:00', 2, 1, (SELECT idCountry FROM ficcua2026.tblCountries WHERE countryName = 'Estados Unidos'), 2),
+('ES345678', 'UCM2024001', 'Carlos', 'Jose', 'Rodríguez', 'García', '1997-12-10T00:00:00', 3, 2, (SELECT idCountry FROM ficcua2026.tblCountries WHERE countryName = 'España'), 3);
 GO
 
-INSERT INTO events.tblCommissions(commissionName) 
+INSERT INTO ficcua2026.tblCommissions(commissionName) 
 VALUES ('Técnica Deportiva'),('Arte'),('Instalaciones'),('Alimentación'),
 ('Logística'),('Voluntariado'),('Protocolo'),('Tecnológica /Acreditación'),
 ('Hospedaje'),('Seguridad'),('Transporte'),('Salud'),
@@ -499,93 +486,32 @@ VALUES ('Técnica Deportiva'),('Arte'),('Instalaciones'),('Alimentación'),
 GO
 
 
--- Insertar datos en sports.tblSportTypes
-INSERT INTO sports.tblSportTypes (sportTypeName) VALUES
-('Deporte de Equipo'),
-('Deporte Individual');
+-- Insertar datos en ficcua2026.tblModalities (por idDelegationType: 1=Artes Visuales, 2=Cine, 3=Escénicas, 4=Literatura, 5=Música, 6=Floreo)
+INSERT INTO ficcua2026.tblModalities (idDelegationType, modalityName) VALUES
+(1, 'Fotografía'), 
+(1, 'Dibujo'),
+(1, 'Pintura'),
+(2, 'Cortometraje'),
+(2, 'Largometraje'),
+(3, 'Teatro'),
+(3, 'Danza'),
+(4, 'Poesía Inédita/Narrativa'),
+(4, 'Poesía Escénica'),
+(5, 'Solista'),
+(5, 'Coros'),
+(5, 'Grupo de Cámara'),
+(5, 'Orquesta'),
+(5, 'Ensambles Musicales');
+GO
 
--- Insertar datos en sports.tblSports
-INSERT INTO sports.tblSports (idSport ,minAthletesCapacity, maxAthletesCapacity, minModalitiesCapacity, idSportType) VALUES
-(1, 11, 18, 1, 2),
-(2, 1, 3, 0, 1);
- 
--- Insertar datos en sports.tblSportModalities
-INSERT INTO sports.tblSportModalities (idSport, modalityName, hasCategories, maxCategoryCapacityPerAthlete, maxCapacity) VALUES
-(1, 'Fútbol 11', 0, 0, 18),
-(2, 'Jabalina', 1, 2, 4);
-
--- Insertar datos en sports.tblSportDelegations
---INSERT INTO sports.tblSportDelegations (idSportDelegation, idGender) VALUES
---(1, 1),
---(2, 2); 
-
--- Insertar datos en sports.tblSportCategories
-INSERT INTO sports.tblSportCategories (idSportModality, categoryName, idGender, isForBothGenders, maxCapacity) VALUES
-(2, '100m Libre', 1, 0, 8),
-(2, '100m Libre', 2, 0, 8),
-(2, '200m Combinado', NULL, 1, 6);
-
--- Insertar datos en sports.tblTestTypes
-INSERT INTO sports.tblTestTypes (idTestName, maxCategoryCapacityPerAthlete) VALUES
-('Velocidad', 2),
-('Resistencia', 1),
-('Técnica', 3);
-
--- Insertar datos en sports.tblSportTests
-INSERT INTO sports.tblSportTests (idSport, maxCapacity, testName, idTestType, idGender, isForBothGenders) VALUES
-(2, 10, '100m Planos', 1, 1, 0),
-(2, 10, '100m Planos', 1, 2, 0),
-(2, 8, 'Maratón', 2, NULL, 1);
-
--- Insertar datos en sports.tblAthleteSportModalities
---INSERT INTO sports.tblAthleteSportModalities (idSportDelegation, idSportModality) VALUES
---(1, 1),
---(2, 2);
-
--- Insertar datos en sports.tblAthleteSportCategories
---INSERT INTO sports.tblAthleteSportCategories (idSportDelegation, idSportCategory) VALUES
---(2, 1),
---(2, 3);
-
--- Insertar datos en sports.tblAthleteSportTests
---INSERT INTO sports.tblAthleteSportTests (idSportDelegation, idSportTest) VALUES
---(2, 1),
---(2, 3);
-
--- Insertar datos en arts.tblArtTypes
-INSERT INTO arts.tblArtTypes (artTypeName) VALUES
-('Artes Escénicas'),
-('Artes Visuales'),
-('Artes Literarias');
-
--- Insertar datos en arts.tblArts
-INSERT INTO arts.tblArts (idArt,idArtType) VALUES
-(3,2),
-(4,2),
-(5,1),
-(6,3),
-(7,2),
-(8,3); 
- 
--- Insertar datos en arts.tblArtModalities
-INSERT INTO arts.tblArtModalities (idArt, modalityName, hasCategories) VALUES
-(3, 'Fotografía', 1),
-(3, 'Dibujo', 1),
-(3, 'Pintura', 1),
-(4, 'Cortometraje', 1),
-(4, 'Largometraje', 1),
-(5, 'Teatro', 1),
-(5, 'Danza', 1),
-(6, 'Poesía Inédita', 0) ,
-(6, 'Poesía Escénica', 0),
-(7, 'Solista', 1),
-(7, 'Coros', 1),
-(7, 'Grupo de Cámara', 1),
-(7, 'Orquesta', 1) ,
-(7, 'Ensambles Musicales', 1);
-
--- Insertar datos en arts.tblArtCategories
-INSERT INTO arts.tblArtCategories (idArt, categoryName) VALUES
+-- Insertar datos en ficcua2026.tblCategories (idModality: 1-3 Artes Visuales, 4-5 Cine, 6-7 Escénicas, 9-13 Música)
+INSERT INTO ficcua2026.tblCategories (idModality, categoryName) VALUES
+(1, 'Piezas Bidimensionales'), 
+(1, 'Piezas Tridimensionales'),
+(1, 'Instalación Artística'),
+(2, 'Piezas Bidimensionales'), 
+(2, 'Piezas Tridimensionales'),
+(2, 'Instalación Artística'),
 (3, 'Piezas Bidimensionales'), 
 (3, 'Piezas Tridimensionales'),
 (3, 'Instalación Artística'),
@@ -593,102 +519,70 @@ INSERT INTO arts.tblArtCategories (idArt, categoryName) VALUES
 (4, 'Ficción'),
 (4, 'Comedia'),
 (4, 'Animación'),
-(5, 'Teatro de Calle'),
-(5, 'Teatro de Sala'),
-(5, 'Cuenta Cuento'), 
-(5, 'Académica'),
-(5, 'Arreglo Musical'),
-(5, 'Folclórica'),
-(5, 'Étnica'), 
-(5, 'Contemporánea'),
-(5, 'Ballet'),
-(5, 'Urbano'),
-(5, 'Latino'),
-(7, 'Autoría Propia'),
-(7, 'Música Tradicional'), 
-(7, 'Música Popular'),
-(7, 'Académica'),
-(7, 'Arreglo Musical');
+(5, 'Drama'), 
+(5, 'Ficción'),
+(5, 'Comedia'),
+(5, 'Animación'),
+(6, 'Teatro de Calle'),
+(6, 'Teatro de Sala'),
+(6, 'Cuenta Cuento'), 
+(7, 'Folclórica'),
+(7, 'Étnica'), 
+(7, 'Contemporánea'),
+(7, 'Ballet'),
+(7, 'Urbano'),
+(7, 'Latino'),
 
-INSERT INTO arts.tblArtCategoriesModalities(idArtModality,idArtCategory) VALUES
-(1,1), 
-(1,2),
-(1,3),
-(2,1), 
-(2,2),
-(2,3),
-(3,1), 
-(3,2),
-(3,3),
-(4,4), 
-(4,5),
-(4,6),
-(4,7),
-(5,4), 
-(5,5),
-(5,6),
-(5,7),
-(6,8), 
-(6,9),
-(6,10),
-(6,11),
-(6,12),
-(7,13),
-(7,14),
-(7,15),
-(7,16),
-(7,17),
-(7,18),
-(10,19),
-(10,20),
-(10,21),
-(10,22),
-(10,23),
-(11,19),
-(11,20),
-(11,21),
-(11,22),
-(11,23),
-(12,19),
-(12,20),
-(12,21),
-(12,22),
-(12,23),
-(13,19),
-(13,20),
-(13,21),
-(13,22),
-(13,23),
-(14,19),
-(14,20),
-(14,21),
-(14,22),
-(14,23); 
+(8, 'Individual'),
+(9, 'Individual'),
+(9, 'Grupo'),
 
--- Insertar datos en arts.tblArtDelegations
---INSERT INTO arts.tblArtDelegations (idProposal) VALUES
---(1),
---(2);
+(10, 'Autoría Propia'),
+(10, 'Música Tradicional'), 
+(10, 'Música Popular'),
+(10, 'Académica'),
+(10, 'Arreglo Musical'),
+(11, 'Autoría Propia'),
+(11, 'Música Tradicional'), 
+(11, 'Música Popular'),
+(11, 'Académica'),
+(11, 'Arreglo Musical'),
+(12, 'Autoría Propia'),
+(12, 'Música Tradicional'), 
+(12, 'Música Popular'),
+(12, 'Académica'),
+(12, 'Arreglo Musical'),
+(13, 'Autoría Propia'),
+(13, 'Música Tradicional'), 
+(13, 'Música Popular'),
+(13, 'Académica'),
+(13, 'Arreglo Musical'),
+(14, 'Autoría Propia'),
+(14, 'Música Tradicional'), 
+(14, 'Música Popular'),
+(14, 'Académica'),
+(14, 'Arreglo Musical');
+GO
+
+-- arts.tblArtDelegations eliminada: delegaciones de arte ahora en ficcua2026.tblDelegations (idProposal, idModality, idCategory)
 
 
 
--- Insertar datos en users.tblUsers
-INSERT INTO users.tblUsers (idUser, username, email, password, isEnabled) VALUES
-(1,'juan.gomez', 'prueba1@prueba.com', '1234', 1),
-(2,'emily.johnson', 'prueba2@prueba.com', '1234', 1),
-(3,'carlos.rodriguez', 'prueba3@prueba.com', '1234', 1);
+-- Insertar datos en ficcua2026.tblUsers
+INSERT INTO ficcua2026.tblUsers (idUser, username, email, password, isEnabled) VALUES
+(1,'juan.gomez', 'prueba1@prueba.com', 'f1ccua$2026', 1),
+(2,'emily.johnson', 'prueba2@prueba.com', 'f1ccua$2026', 1),
+(3,'carlos.rodriguez', 'prueba3@prueba.com', 'f1ccua$2026', 1);
 
--- Insertar datos en users.tblUserEvents
-/*
-INSERT INTO users.tblUserEvents (idUser, idEvent, isEnbled) VALUES
-(1, 1, 1),
-(2, 1, 1),
-(3, 1, 1);
-*/
+-- Insertar datos en ficcua2026.tblEventUser (evento único)
+INSERT INTO ficcua2026.tblEventUser (idUser, isEnabled) VALUES
+(1, 1),
+(2, 1),
+(3, 1);
 
--- Insertar datos en users.tblUserRoles (roles del sistema)
-SET IDENTITY_INSERT users.tblUserRoles ON;
-INSERT INTO users.tblUserRoles (idUserRole, roleName, description, show) VALUES
+-- Insertar datos en ficcua2026.tblUserRoles (roles del sistema)
+SET IDENTITY_INSERT ficcua2026.tblUserRoles ON;
+INSERT INTO ficcua2026.tblUserRoles (idUserRole, roleName, description, show) VALUES
 (1, N'SYSADM', N'Administrador del sistema.', 0),
 (2, N'Representante CSUCA', N'Representante de CSUCA, puede inscribir autoridades de CSUCA en los eventos.', 1),
 (3, N'Representante Universitario', N'Representante Universitario, puede inscribir personas de su universidad en los eventos.', 1),
@@ -700,10 +594,10 @@ INSERT INTO users.tblUserRoles (idUserRole, roleName, description, show) VALUES
 (9, N'Voluntariado-Supervisor', N'Puede escanear credenciales y gestionar voluntarios de ubicaciones asignadas.', 1),
 (10, N'Voluntariado-Administrador', N'Puede escanear QR de credenciales y gestionar supervisores y voluntarios de cualquier ubicacion.', 1),
 (11, N'Acreditacion-Administrador', N'Puede generar y activar o desactivar diplomas y credenciales, ademas de corregir datos generales de las personas.', 1);
-SET IDENTITY_INSERT users.tblUserRoles OFF;
+SET IDENTITY_INSERT ficcua2026.tblUserRoles OFF;
 
--- Insertar datos en users.tblUserRoleRelations
-INSERT INTO users.tblUserRoleRelations (idUser, idUserRole, isActive) VALUES
+-- Insertar datos en ficcua2026.tblUserRoleRelations
+INSERT INTO ficcua2026.tblUserRoleRelations (idUser, idUserRole, isActive) VALUES
 (1, 1, 1),
 (2, 2, 1),
 (3, 3, 1);
@@ -711,86 +605,67 @@ INSERT INTO users.tblUserRoleRelations (idUser, idUserRole, isActive) VALUES
 
 
 -- Acciones del sistema (permisos)
-SET IDENTITY_INSERT users.tblRoleActions ON;
-INSERT INTO users.tblRoleActions (idAction, actionName, actionDescription, show) VALUES
+SET IDENTITY_INSERT ficcua2026.tblRoleActions ON;
+INSERT INTO ficcua2026.tblRoleActions (idAction, actionName, actionDescription, show) VALUES
 (1, N'ficcua.fullaccess', N'Acceso total a endpoints de FICCUA', 1),
 (2, N'ficcua.delegations.access', N'Acceso a delegaciones y catalogos base', 1);
-SET IDENTITY_INSERT users.tblRoleActions OFF;
+SET IDENTITY_INSERT ficcua2026.tblRoleActions OFF;
 
 -- Relacion rol-accion
-INSERT INTO users.tblRoleActionRelations (idUserRole, idAction, isActive) VALUES
+INSERT INTO ficcua2026.tblRoleActionRelations (idUserRole, idAction, isActive) VALUES
 (1, 1, 1),
 (3, 2, 1);
 
 -- Endpoints actuales -> accion (SYSADM)
-INSERT INTO users.tblEndpointActions (httpMethod, pathPattern, idAction, isActive) VALUES
+INSERT INTO ficcua2026.tblEndpointActions (httpMethod, pathPattern, idAction, isActive) VALUES
 ('GET',  '/persons', 1, 1),
-('GET',  '/persons/identificationDocument/:identificationDocument', 1, 1),
-('GET',  '/persons/:id', 1, 1),
+('GET',  '/person/identificationDocument/:identificationDocument', 1, 1),
+('GET',  '/person/:id', 1, 1),
 ('POST', '/persons', 1, 1),
-('PUT', '/persons/:id', 1, 1),
-('DELETE', '/persons/:id', 1, 1),
+('PUT', '/person/:id', 1, 1),
+('DELETE', '/person/:id', 1, 1),
 ('GET',  '/genders', 1, 1),
 ('GET',  '/userroles', 1, 1),
 ('GET',  '/userroles/:id', 1, 1),
-('GET',  '/delegation/persons/:idDelegation', 1, 1),
 ('GET',  '/countries', 1, 1),
-('GET',  '/countries/:id', 1, 1),
+('GET',  '/country/:id', 1, 1),
 ('GET',  '/universities', 1, 1),
-('GET',  '/universities/:id', 1, 1),
-('GET',  '/events', 1, 1),
-('GET',  '/events/:id', 1, 1),
-('GET',  '/eventstypes', 1, 1),
-('GET',  '/events/type/:id', 1, 1),
+('GET',  '/university/:id', 1, 1),
 ('GET',  '/commissions', 1, 1),
 ('GET',  '/careers', 1, 1),
 ('POST', '/careers', 1, 1),
 ('GET',  '/roles', 1, 1),
-('GET',  '/roles/event-type/:idEventType/delegation', 1, 1),
-('GET',  '/roles/event/:idEvent/delegation', 1, 1),
+('GET',  '/role/:id', 1, 1),
 ('GET',  '/art/types', 1, 1),
-('GET',  '/art/event/:idEvent', 1, 1),
 ('GET',  '/art/:id', 1, 1),
+-- CONSULTAR SI MANTENER 
 ('GET',  '/art/modalities/:idDelegationType', 1, 1),
-('GET',  '/art/categories/:idArtModality', 1, 1),
-('GET',  '/art/modality/:idArtModality', 1, 1),
-('GET',  '/sportstypes', 1, 1),
-('GET',  '/testtypes', 1, 1),
+('GET',  '/art/modalities', 1, 1),
+('GET',  '/art/modality/:idModality', 1, 1),
+('GET',  '/art/:idArtModality/categories', 1, 1),
+-- Verificar si se mantendran  
+--('GET',  '/art/categories', 1, 1),
+--('GET',  '/art/category/:idArtCategory', 1, 1),
 ('GET',  '/stafftypes', 1, 1),
-('POST', '/delegations/art', 1, 1),
-('GET',  '/delegations/:id', 1, 1),
-('PUT',  '/delegations/:id', 1, 1),
-('DELETE','/delegations/:id', 1, 1),
+('POST', '/delegation', 1, 1),
+('GET',  '/delegation/:id', 1, 1),
+('PUT',  '/delegation/:id', 1, 1),
+('DELETE','/delegation/:id', 1, 1),
+('GET',  '/delegations', 1, 1),
 ('GET',  '/delegations/university/:idUniversity', 1, 1),
 ('GET',  '/delegations/university/:idUniversity/:idDelegationType', 1, 1),
-('GET',  '/delegations/persons/:idDelegation', 1, 1),
-('POST', '/delegations/:idDelegation/persons', 1, 1),
-('DELETE','/delegations/persons/:idDelegation/:idPerson', 1, 1),
-('GET','/delegations/roles/all', 1, 1);
+('GET',  '/delegation/:idDelegation/persons', 1, 1),
+('POST', '/delegation/:idDelegation/person', 1, 1),
+('PATCH', '/delegation/:idDelegation/person/:idPerson', 1, 1),
+('DELETE','/delegation/:idDelegation/person/:idPerson', 1, 1),
+('GET','/delegations/roles', 1, 1),
+('POST', '/upload/person', 1, 1),
+('POST', '/upload/piece', 1, 1),
+('GET', '/person/:idPerson/file/:fileType', 1, 1),
+('GET', '/delegation/:idDelegation/file/:fileType', 1, 1),
+('DELETE', '/person/:idPerson/file/:fileType', 1, 1),
+('DELETE', '/delegation/:idDelegation/file/:fileType', 1, 1);
 
--- Endpoints -> accion (Representante Universitario)
-INSERT INTO users.tblEndpointActions (httpMethod, pathPattern, idAction, isActive) VALUES
-('GET',  '/persons/identificationDocument/:identificationDocument', 2, 1),
-('POST', '/persons', 2, 1),
-('PUT', '/persons/:id', 2, 1),
-('DELETE', '/persons/:id', 2, 1),
-('GET',  '/countries', 2, 1),
-('GET',  '/countries/:id', 2, 1),
-('GET',  '/universities/:id', 2, 1),
-('GET',  '/roles/event-type/:idEventType/delegation', 2, 1),
-('GET',  '/roles/event/:idEvent/delegation', 2, 1),
-('GET',  '/art/types', 2, 1),
-('GET',  '/art/event/:idEvent', 2, 1),
-('GET',  '/art/:id', 2, 1),
-('GET',  '/art/modalities/:idDelegationType', 2, 1),
-('GET',  '/art/categories/:idArtModality', 2, 1),
-('GET',  '/delegations/:id', 2, 1),
-('PUT',  '/delegations/:id',2, 1),
-('DELETE','/delegations/:id', 2, 1),
-('GET',  '/delegations/university/:idUniversity', 2, 1),
-('GET',  '/delegations/university/:idUniversity/:idDelegationType', 2, 1),
-('GET',  '/delegations/persons/:idDelegation', 2, 1),
-('POST', '/delegations/:idDelegation/persons', 2, 1),
-('DELETE','/delegations/persons/:idDelegation/:idPerson', 2, 1),
-('GET','/delegations/roles/all', 2, 1);
+
+
 

@@ -52,23 +52,11 @@ GO
 USE DbGestionGem;
 GO
 
-CREATE SCHEMA users;
-GO
-CREATE SCHEMA asset;
-GO
-CREATE SCHEMA config;
-GO
-CREATE SCHEMA events;
+CREATE SCHEMA ficcua2026;
 GO
 
-CREATE SCHEMA sports;
-GO
-
-CREATE SCHEMA arts;
-GO
-
--- CREACION TABLAS SCHEMA ASSETS
-CREATE TABLE asset.tblLoginAttempts(
+-- CREACION TABLAS
+CREATE TABLE ficcua2026.tblLoginAttempts(
     idLoginAttempt INT IDENTITY PRIMARY KEY,
     email NVARCHAR(100) NOT NULL,
     ipClient NVARCHAR(100),
@@ -78,73 +66,56 @@ CREATE TABLE asset.tblLoginAttempts(
     attemptDate DATETIME NOT NULL  DEFAULT SYSDATETIME()
 );
 
--- CREACION TABLAS SCHEMA EVENTS
-	CREATE TABLE events.tblEvents (
-		idEvent INTEGER IDENTITY PRIMARY KEY,
-		eventName NVARCHAR(200) NOT NULL,
-		startDate DATETIME NOT NULL,
-		endDate DATETIME NOT NULL,
-		idEventType INTEGER NOT NULL
-	);
-	GO
 
-	CREATE TABLE events.tblEventTypes(
-		idEventType INTEGER IDENTITY PRIMARY KEY,
-		eventTypeName NVARCHAR(150) NOT NULL
-	);
-	GO
-
-	CREATE TABLE events.tblUniversities(
+	CREATE TABLE ficcua2026.tblUniversities(
 		idUniversity INTEGER IDENTITY PRIMARY KEY,
 		universityName NVARCHAR(150) NOT NULL,
 		acronym NVARCHAR(20) NOT NULL,
 		idCountry INTEGER NOT NULL
 	);
 	GO
-	CREATE TABLE events.tblDelegations(
+	CREATE TABLE ficcua2026.tblDelegations(
 		delegationName NVARCHAR(150) NOT NULL,
 		idDelegation INTEGER IDENTITY PRIMARY KEY,
 		idUniversity INTEGER NOT NULL, 
-		idDelegationType INTEGER NOT NULL
+		idDelegationType INTEGER NOT NULL,
+		idCategory INTEGER NULL,
+		idModality INTEGER NULL,
+		idProposal INTEGER NULL
 	);
 	GO 
-		CREATE TABLE events.tblDelegationType(
+		CREATE TABLE ficcua2026.tblDelegationTypes(
 		idDelegationType INTEGER IDENTITY PRIMARY KEY,
-		delegationName NVARCHAR(100) NOT NULL,
-		idEvent INTEGER NOT NULL, 
-		hasModalities BIT NOT NULL,
-		hasCategories BIT NOT NULL,
-		hasTests BIT NOT NULL
+		delegationName NVARCHAR(100) NOT NULL
 	);
 	GO  
-	CREATE TABLE events.tblCountries(
+	CREATE TABLE ficcua2026.tblCountries(
 		idCountry INTEGER IDENTITY PRIMARY KEY,
 		countryName NVARCHAR(100) NOT NULL,
 		countryCode NVARCHAR(20) NOT NULL,
 		nationality nVARCHAR(100) NOT NULL
 	);
 	GO
-	CREATE TABLE events.tblEventConfigurations(
+	CREATE TABLE ficcua2026.tblEventConfigurations(
 		booleanValue BIT,
 		integerValue INTEGER,
 		stringValue NVARCHAR(50),
 		show BIT NOT NULL DEFAULT 1,
-		idEvent INTEGER NOT NULL,
 		idConfigValueType INTEGER NOT NULL,
 		idConfigParam INTEGER NOT NULL
 	);
 	GO
-	CREATE TABLE events.tblConfigurationValueTypes(
+	CREATE TABLE ficcua2026.tblConfigurationValueTypes(
 		idConfigValueType INTEGER IDENTITY PRIMARY KEY,
-		configValueTypeName NVARCHAR(50) NOT NULL,
+		configValueTypeName NVARCHAR(50) NOT NULL
 	);
 	GO
-	CREATE TABLE events.tblConfigurationParameters(
+	CREATE TABLE ficcua2026.tblConfigurationParameters(
 		idConfigParam INTEGER IDENTITY PRIMARY KEY,
-		description NVARCHAR(100) NOT NULL,
+		description NVARCHAR(100) NOT NULL
 	);
 
-	CREATE TABLE events.tblSpeakers(
+	CREATE TABLE ficcua2026.tblSpeakers(
 		idSpeaker  INTEGER IDENTITY  PRIMARY KEY,
 		institutionalEmail NVARCHAR(50) NOT NULL,
 		personalEmail NVARCHAR(50) NOT NULL,
@@ -157,14 +128,14 @@ CREATE TABLE asset.tblLoginAttempts(
 
 	);
 	GO
-	CREATE TABLE events.tblSpeakerCategories(
+	CREATE TABLE ficcua2026.tblSpeakerCategories(
 		idSpeakerCategory INTEGER IDENTITY PRIMARY KEY,
 		categoryName NVARCHAR(30) NOT NULL
 	);
 	GO
 
 
-	CREATE TABLE events.tblConferences(
+	CREATE TABLE ficcua2026.tblConferences(
 		idConference INTEGER IDENTITY PRIMARY KEY,
 		conferenceTitle NVARCHAR(250) NOT NULL,
 		conferenceRequirements NVARCHAR(250),
@@ -174,7 +145,7 @@ CREATE TABLE asset.tblLoginAttempts(
 	);
 	GO
 
-	CREATE TABLE events.tblConferenceThemes(
+	CREATE TABLE ficcua2026.tblConferenceThemes(
 		idConferenceTheme INTEGER IDENTITY PRIMARY KEY,
 		conferenceThemeName NVARCHAR(50) NOT NULL,
 		themeDescription NVARCHAR(200) NOT NULL
@@ -182,24 +153,23 @@ CREATE TABLE asset.tblLoginAttempts(
 	);
 	GO
 
-	CREATE TABLE events.tblConferenceTypes(
+	CREATE TABLE ficcua2026.tblConferenceTypes(
 		idConferenceType INTEGER IDENTITY PRIMARY KEY,
 		conferenceTypeName NVARCHAR(50) NOT NULL,
 		typeDescription NVARCHAR(200) NOT NULL
 	);
 	GO 
 
-	CREATE TABLE events.tblUniversityStaffs(
+	CREATE TABLE ficcua2026.tblUniversityStaffs(
 		idUniversityStaff INTEGER IDENTITY PRIMARY KEY,
 		idUniversity INTEGER NOT NULL,
 		idPerson INTEGER NOT NULL,
-		idEvent INTEGER NOT NULL,
 		idCommission INTEGER NOT NULL,
 		idRole INTEGER NOT NULL
 	);
 	GO
 
-	CREATE TABLE events.tblCommissions(
+	CREATE TABLE ficcua2026.tblCommissions(
 		idCommission INTEGER IDENTITY PRIMARY KEY,
 		commissionName NVARCHAR(100) NOT NULL
 	);
@@ -207,7 +177,7 @@ CREATE TABLE asset.tblLoginAttempts(
 
 	
 
-	CREATE TABLE events.tblDoctorSpecialties(
+	CREATE TABLE ficcua2026.tblDoctorSpecialties(
 		idDoctorSpecialty INTEGER IDENTITY PRIMARY KEY,
 		idUniversityStaff INTEGER NOT NULL,
 		idSpecialty INTEGER NOT NULL,
@@ -215,30 +185,28 @@ CREATE TABLE asset.tblLoginAttempts(
 
 	);
 
-	CREATE TABLE events.tblSpecialties(
+	CREATE TABLE ficcua2026.tblSpecialties(
 		idSpecialty INTEGER IDENTITY PRIMARY KEY,
 		specialtyName NVARCHAR(100) NOT NULL 
 	);
 	
-	CREATE TABLE events.tblRoles(
+	CREATE TABLE ficcua2026.tblRoles(
 		idRole INTEGER IDENTITY PRIMARY KEY,
 		roleName NVARCHAR(100) NOT NULL,
 		idRoleCategory INTEGER NOT NULL,
 		idAccessLevel INTEGER NOT NULL
 	);
 	GO
-	CREATE TABLE events.tblRolesCategories(
+	CREATE TABLE ficcua2026.tblRolesCategories(
 		idRoleCategory INTEGER IDENTITY PRIMARY KEY,
 		roleCategoryName NVARCHAR(100) NOT NULL,
-		roleCategoryDescription NVARCHAR(100) NOT NULL,
-		idEventType INTEGER NOT NULL,
+		roleCategoryDescription NVARCHAR(100) NOT NULL
 	);
 	GO
 	-- tblPersonRoles eliminada: delegación y staff almacenan idRole directamente
-	-- Evento en delegación: delegation idEvent
-	-- Evento en staff: idEvent en tblUniversityStaffs
+	-- Modelo evento único: sin idEvent, el programa conoce su contexto
 
-	CREATE TABLE events.tblEventAccessLevel(
+	CREATE TABLE ficcua2026.tblEventAccessLevel(
 		idAccessLevel INTEGER IDENTITY PRIMARY KEY,
 		accessLevelCode NVARCHAR(100) NOT NULL,
 		accessLevelName NVARCHAR(100) NOT NULL,
@@ -247,139 +215,36 @@ CREATE TABLE asset.tblLoginAttempts(
 	);
 	GO
 	
-	CREATE TABLE events.tblCareers(
+	CREATE TABLE ficcua2026.tblCareers(
 		idCareer INTEGER IDENTITY PRIMARY KEY,
 		careerName NVARCHAR(100) NOT NULL
 	);
 
 
 
--- CREACION TABLAS SCHEMA SPORTS
-	CREATE TABLE sports.tblSports (
-		idSport INT PRIMARY KEY,
-		minAthletesCapacity INTEGER NOT NULL DEFAULT 0,
-		maxAthletesCapacity INTEGER NOT NULL DEFAULT 0,
-		minModalitiesCapacity INTEGER NOT NULL,
-		idSportType INTEGER NOT NULL
+-- SCHEMA SPORTS: movido a script separado para eventos deportivos
+
+-- CREACION TABLAS EVENT (modalities/categories) y ARTS
+	CREATE TABLE ficcua2026.tblModalities(
+		idModality INTEGER IDENTITY PRIMARY KEY,
+		idDelegationType INTEGER NOT NULL,
+		modalityName NVARCHAR(150) NOT NULL
 	);
 	GO
-	CREATE TABLE sports.tblSportTypes (
-		idSportType INT IDENTITY PRIMARY KEY,
-		sportTypeName NVARCHAR(150) NOT NULL
-	);
-	GO 
-
-	CREATE TABLE sports.tblSportModalities(
-		idSportModality INTEGER IDENTITY PRIMARY KEY,
-		idSport INTEGER NOT NULL,
-		modalityName NVARCHAR(150) NOT NULL,
-		hasCategories BIT NOT NULL DEFAULT 0,
-		maxCategoryCapacityPerAthlete INTEGER NOT NULL,
-		maxCapacity INTEGER NOT NULL
+	CREATE TABLE ficcua2026.tblCategories(
+		idCategory INTEGER IDENTITY PRIMARY KEY,
+		idModality INTEGER NOT NULL,
+		categoryName NVARCHAR(150) NOT NULL
 	);
 	GO
-	
-
-	CREATE TABLE sports.tblSportDelegations (
-		idSportDelegation INTEGER PRIMARY KEY,
-		idGender TINYINT NOT NULL
-	);
-	GO  
-
-	CREATE TABLE sports.tblSportCategories(
-		idSportCategory INTEGER IDENTITY PRIMARY KEY,
-		idSportModality INTEGER NOT NULL,
-		categoryName NVARCHAR(150) NOT NULL,
-		idGender TINYINT,
-		isForBothGenders BIT NOT NULL,
-		maxCapacity INTEGER NOT NULL,
-	);
-	GO
-
-	CREATE TABLE sports.tblSportTests(
-		idSportTest INTEGER IDENTITY PRIMARY KEY,
-		idSport INT NOT NULL,
-		maxCapacity INTEGER NOT NULL,
-		testName NVARCHAR(150) NOT NULL,
-		idTestType INTEGER NOT NULL,
-		idGender TINYINT,
-		isForBothGenders BIT NOT NULL,
-
-	);
-	GO
-	CREATE TABLE sports.tblTestTypes(
-		idTestType INTEGER IDENTITY PRIMARY KEY,
-		idTestName NVARCHAR(150) NOT NULL,
-		maxCategoryCapacityPerAthlete INTEGER NOT NULL,
-	);
-	GO
-
-	CREATE TABLE sports.tblAthleteSportModalities(
-		idAthleteSportModality INTEGER IDENTITY PRIMARY KEY,
-		idSportDelegation INTEGER NOT NULL,
-		idSportModality INTEGER NOT NULL,
-	);
-	GO
-
-	CREATE TABLE sports.tblAthleteSportCategories(
-		idAthleteSportCategory INTEGER IDENTITY PRIMARY KEY,
-		idSportDelegation INTEGER NOT NULL,
-		idSportCategory INTEGER NOT NULL,
-	);
-	GO
-
-	CREATE TABLE sports.tblAthleteSportTests(
-		idAthleteSportTest INTEGER IDENTITY PRIMARY KEY,
-		idSportDelegation INTEGER NOT NULL,
-		idSportTest INTEGER NOT NULL,
-	);
-	GO
-
--- CREACION TABLAS SCHEMMA ARTS
-	CREATE TABLE arts.tblArtDelegations(
-		idArtDelegation INTEGER PRIMARY KEY,
-		idProposal INTEGER  NULL,
-		idArtModality INTEGER  NULL,
-		idArtCategory INTEGER  NULL
-	);
-	GO
-	CREATE TABLE arts.tblProposals(
+	CREATE TABLE ficcua2026.tblProposals(
 		idProposal INTEGER IDENTITY PRIMARY KEY,
 		proposalName NVARCHAR(150) NOT NULL,
 		authorName NVARCHAR(100) NOT NULL,
 		synopsis NVARCHAR(150) NOT NULL,
 		duration FLOAT NULL, 
 		technicalRyder NVARCHAR(500) NOT NULL,
-		performancesAmount INTEGER NULL,
-	);
-	GO
-	CREATE TABLE arts.tblArts(
-		idArt INTEGER PRIMARY KEY,
-		idArtType INTEGER NOT NULL
-	);
-	GO
-	CREATE TABLE arts.tblArtTypes(
-		idArtType INTEGER IDENTITY PRIMARY KEY,
-		artTypeName NVARCHAR(150) NOT NULL
-	);  
-	GO
-	CREATE TABLE arts.tblArtModalities(
-		idArtModality INTEGER IDENTITY PRIMARY KEY,
-		idArt INTEGER NOT NULL,
-		modalityName NVARCHAR(150) NOT NULL,
-		hasCategories BIT NOT NULL DEFAULT 0
-	);
-	GO
-	CREATE TABLE arts.tblArtCategories(
-		idArtCategory INTEGER IDENTITY PRIMARY KEY,
-		idArt INTEGER NOT NULL,
-		categoryName NVARCHAR(150) NOT NULL
-	);
-	GO
-	CREATE TABLE arts.tblArtCategoriesModalities(
-		idArtCategoryModality INTEGER IDENTITY PRIMARY KEY,
-		idArtCategory INTEGER NOT NULL,
-		idArtModality INTEGER NOT NULL 
+		performancesAmount INTEGER NULL
 	);
 	GO
 
@@ -387,13 +252,13 @@ CREATE TABLE asset.tblLoginAttempts(
 
 
 -- CREACION TABLAS SCHEMA USERS
-	CREATE TABLE users.tblGenders(
+	CREATE TABLE ficcua2026.tblGenders(
 		idGender TINYINT IDENTITY PRIMARY KEY,
 		genderName NVARCHAR(20) NOT NULL
 	);
 	GO
 
-	CREATE TABLE users.tblPersons (
+	CREATE TABLE ficcua2026.tblPersons (
 		idPerson INTEGER IDENTITY PRIMARY KEY,
 		identificationDocument NVARCHAR(50) NOT NULL,
 		universityCardNumber NVARCHAR(50),
@@ -410,7 +275,7 @@ CREATE TABLE asset.tblLoginAttempts(
 	);
 	GO
 
-	CREATE TABLE users.tblDelegationPersons(
+	CREATE TABLE ficcua2026.tblDelegationPersons(
 		idDelegationPerson INTEGER IDENTITY PRIMARY KEY,
 		idDelegation INTEGER NOT NULL,
 		idPerson INTEGER NOT NULL,
@@ -418,28 +283,48 @@ CREATE TABLE asset.tblLoginAttempts(
 	);
 	GO
 
-	
+	-- Archivos S3: persona (1 fila = 1 archivo subido)
+	CREATE TABLE ficcua2026.tblPersonFiles (
+		idPersonFile INTEGER IDENTITY PRIMARY KEY,
+		idPerson INTEGER NOT NULL,
+		fileType NVARCHAR(50) NOT NULL,
+		fileUrl NVARCHAR(500) NOT NULL,
+		s3Key NVARCHAR(255) NOT NULL,
+		uploadDate DATETIME NOT NULL DEFAULT SYSDATETIME()
+	);
+	GO
 
-	CREATE TABLE users.tblUsers (
+	-- Archivos S3: obras (1 fila = 1 archivo subido)
+	CREATE TABLE ficcua2026.tblDelegationFiles (
+		idDelegationFile INTEGER IDENTITY PRIMARY KEY,
+		idDelegation INTEGER NOT NULL,
+		fileType NVARCHAR(50) NOT NULL,
+		fileUrl NVARCHAR(500) NOT NULL,
+		s3Key NVARCHAR(255) NOT NULL,
+		uploadDate DATETIME NOT NULL DEFAULT SYSDATETIME()
+	);
+	GO
+
+	CREATE TABLE ficcua2026.tblUsers (
 		idUser INTEGER PRIMARY KEY,
 		username NVARCHAR(200) NOT NULL,
 		email NVARCHAR(50),
 		password NVARCHAR(200) NOT NULL,
+		isEnabled BIT NOT NULL DEFAULT 1,
+		refreshToken NVARCHAR(1000) NULL  -- session única por usuario: crea/actualiza en login, null en logout
+	);
+	GO
+
+
+	CREATE TABLE ficcua2026.tblEventUser(
+		idEventUser INTEGER IDENTITY PRIMARY KEY,
+		idUser INTEGER NOT NULL,
 		isEnabled BIT NOT NULL DEFAULT 1
 	);
 	GO
 
 
-	CREATE TABLE users.tblUserEvents(
-		idUserEvents INTEGER IDENTITY PRIMARY KEY,
-		idUser INTEGER NOT NULL,
-		idEvent INTEGER NOT NULL,
-		isEnbled BIT NOT NULL DEFAULT 1,
-	);
-	GO
-
-
-	CREATE TABLE users.tblUserRoles (
+	CREATE TABLE ficcua2026.tblUserRoles (
 		idUserRole INTEGER IDENTITY PRIMARY KEY,
 		roleName NVARCHAR(50) NOT NULL,
 		description NVARCHAR(MAX) NOT NULL,
@@ -447,7 +332,7 @@ CREATE TABLE asset.tblLoginAttempts(
 	);
 	GO
 
-	CREATE TABLE users.tblUserRoleRelations (
+	CREATE TABLE ficcua2026.tblUserRoleRelations (
 		idUserRoleRelation INTEGER IDENTITY PRIMARY KEY,
 		idUser INTEGER NOT NULL,
 		idUserRole INTEGER NOT NULL,
@@ -456,7 +341,7 @@ CREATE TABLE asset.tblLoginAttempts(
 	GO
 
 	
-	CREATE TABLE users.tblRoleActions (
+	CREATE TABLE ficcua2026.tblRoleActions (
 		idAction INTEGER IDENTITY PRIMARY KEY,
 		actionName NVARCHAR(150) NOT NULL,
 		actionDescription NVARCHAR(MAX) NOT NULL,
@@ -464,14 +349,14 @@ CREATE TABLE asset.tblLoginAttempts(
 	);
 	GO
 
-	CREATE TABLE users.tblRoleActionRelations (
+	CREATE TABLE ficcua2026.tblRoleActionRelations (
 		idUserRoleAction INTEGER IDENTITY PRIMARY KEY,
 		idUserRole INTEGER NOT NULL,
 		idAction INTEGER NOT NULL,
 		isActive BIT NOT NULL DEFAULT 1
 	);
 	
-	CREATE TABLE users.tblEndpointActions (
+	CREATE TABLE ficcua2026.tblEndpointActions (
     idEndpointAction INTEGER IDENTITY PRIMARY KEY,
     httpMethod NVARCHAR(10) NOT NULL,      -- GET, POST, PUT, DELETE
     pathPattern NVARCHAR(255) NOT NULL,    -- /users, /users/:id, /users/*
@@ -480,312 +365,229 @@ CREATE TABLE asset.tblLoginAttempts(
 	);
 	GO
 
--- CONSTRAINT (UNIQUE) SCHEMA EVENTS
-	ALTER TABLE events.tblEventTypes
-	ADD CONSTRAINT ukEventTypeName UNIQUE (eventTypeName);
-	GO
-
-	ALTER TABLE events.tblConfigurationValueTypes
+-- CONSTRAINT (UNIQUE) SCHEMA EVENT
+	ALTER TABLE ficcua2026.tblConfigurationValueTypes
 	ADD CONSTRAINT ukConfigValueTypeName UNIQUE (configValueTypeName);
 	GO
 
-	ALTER TABLE events.tblConfigurationParameters
+	ALTER TABLE ficcua2026.tblConfigurationParameters
 	ADD CONSTRAINT ukDescription UNIQUE(description);
 	GO
 
-	CREATE UNIQUE INDEX ukRolesCategories_Catalog ON events.tblRolesCategories(roleCategoryName);
+	CREATE UNIQUE INDEX ukRolesCategories_Catalog ON ficcua2026.tblRolesCategories(roleCategoryName);
 	GO
 
 
-	ALTER TABLE events.tblDoctorSpecialties
+	ALTER TABLE ficcua2026.tblDoctorSpecialties
 	ADD CONSTRAINT ukDoctorSpecialties_Specialty UNIQUE (idDoctorSpecialty, idSpecialty),
 	CONSTRAINT ukDoctorSpecialties_Specialty_PositionOther UNIQUE (idDoctorSpecialty, idSpecialty, specialtyOther);
 	GO
 
-	ALTER TABLE events.tblSpecialties
+	ALTER TABLE ficcua2026.tblSpecialties
 	ADD CONSTRAINT ukSpecialtyName UNIQUE (specialtyName);
 	GO
 
-	ALTER TABLE events.tblCommissions
+	ALTER TABLE ficcua2026.tblCommissions
 	ADD CONSTRAINT ukCommissionName UNIQUE (commissionName);
 	GO
 
-	ALTER TABLE events.tblRoles
+	ALTER TABLE ficcua2026.tblRoles
 	ADD CONSTRAINT ukRole_RoleName_EventType_Event UNIQUE (roleName, idRoleCategory, idAccessLevel);
 	GO
 
 	-- ukPerson_Role_Event eliminado (tblPersonRoles eliminada)
 
-	ALTER TABLE events.tblEventAccessLevel
+	ALTER TABLE ficcua2026.tblEventAccessLevel
 	ADD CONSTRAINT ukEventAccessLevelName UNIQUE (accessLevelName);
+	GO
+
+	ALTER TABLE ficcua2026.tblEventUser
+	ADD CONSTRAINT ukEventUser_User UNIQUE (idUser);
 	GO
 
 
 
 -- CONSTRAINT (UNIQUE) SCHEMA  USUARIOS 
-	ALTER TABLE users.tblUsers
+	ALTER TABLE ficcua2026.tblUsers
 	ADD CONSTRAINT ukusername UNIQUE (username);
 	GO 
 
-	ALTER TABLE users.tblUserRoles
+	ALTER TABLE ficcua2026.tblUserRoles
 	ADD CONSTRAINT ukroleName UNIQUE (roleName);
 	GO
 
 	
-	ALTER TABLE users.tblRoleActions
+	ALTER TABLE ficcua2026.tblRoleActions
 	ADD CONSTRAINT ukactionName UNIQUE (actionName);
 	GO
 	
 
--- CONSTRAINT (UNIQUE) SCHEMA SPOTRTS
-	ALTER TABLE sports.tblSportDelegations
-	ADD CONSTRAINT ukDelegation_Gender_Sport UNIQUE (idSportDelegation, idGender);
+-- CONSTRAINT (UNIQUE) EVENT modalities/categories
+	ALTER TABLE ficcua2026.tblModalities
+	ADD CONSTRAINT ukModalities_DelegationType_Name UNIQUE (idDelegationType, modalityName);
 	GO
-
-	/*
-	ALTER TABLE sports.tblSports
-	ADD CONSTRAINT uksportName UNIQUE (sportName);
-	GO
-	*/
-	 
-	ALTER TABLE sports.tblSportModalities
-	ADD CONSTRAINT ukmodalityName UNIQUE (idSport, modalityname);
-	GO
-
-	ALTER TABLE sports.tblSportCategories 
-	ADD CONSTRAINT	ukSportModality_Category_Gender UNIQUE (idSportModality, categoryName , idGender);
-	GO
-
-	ALTER TABLE sports.tblSportTests
-	ADD CONSTRAINT ukSport_Test_TestType_Gender UNIQUE (idSport ,testName ,idTestType ,idGender );
-	GO
-
-	ALTER TABLE sports.tblAthleteSportModalities 
-	ADD CONSTRAINT ukDelegationType_SportModality UNIQUE (idSportDelegation, idSportModality);
-	GO
-
-	ALTER TABLE sports.tblAthleteSportCategories
-	ADD CONSTRAINT ukDelegationType_SportCategory UNIQUE (idSportDelegation, idSportCategory);
-
-	ALTER TABLE sports.tblAthleteSportTests 
-	ADD CONSTRAINT ukDelegationType_SportTest UNIQUE (idSportDelegation, idSportTest);
+	ALTER TABLE ficcua2026.tblCategories
+	ADD CONSTRAINT ukCategories_Modality_Name UNIQUE (idModality, categoryName);
 	GO
 
 
 	CREATE UNIQUE INDEX idxPersons_universityCardNumber
-	ON users.tblPersons(universityCardNumber)
+	ON ficcua2026.tblPersons(universityCardNumber)
 	WHERE universityCardNumber IS NOT NULL
 	GO
 
 	CREATE UNIQUE INDEX idxUsers_email
-	ON users.tblUsers(email)
+	ON ficcua2026.tblUsers(email)
 	WHERE email IS NOT NULL
 	GO
 	CREATE UNIQUE INDEX idxPersons_identificationDocument
-	ON users.tblPersons(identificationDocument)
+	ON ficcua2026.tblPersons(identificationDocument)
 	WHERE identificationDocument IS NOT NULL
 	GO
 
 	-- Creacion de Indices de busquedas de inicio de Sesion 
 	CREATE INDEX IX_tblLoginAttempts_email_date 
-	ON asset.tblLoginAttempts(email, attemptDate);
+	ON ficcua2026.tblLoginAttempts(email, attemptDate);
 	
 	CREATE INDEX IX_tblLoginAttempts_date 
-	ON asset.tblLoginAttempts(attemptDate);
+	ON ficcua2026.tblLoginAttempts(attemptDate);
 
-	ALTER TABLE events.tblUniversityStaffs
-	ADD CONSTRAINT ukUniversityStaff_Event_Person_RoleCategory_University UNIQUE (idEvent, idPerson, idUniversity);
+	ALTER TABLE ficcua2026.tblUniversityStaffs
+	ADD CONSTRAINT ukUniversityStaff_Person_University UNIQUE (idPerson, idUniversity);
 	GO
 -- CONSTRAINT (UNIQUE) SCHEMA USERS
-	ALTER TABLE users.tblDelegationPersons
+	ALTER TABLE ficcua2026.tblDelegationPersons
 	ADD CONSTRAINT ukDelegationPersons UNIQUE (idDelegation, idPerson);
 	GO
 
-	ALTER TABLE users.tblPersons
+	ALTER TABLE ficcua2026.tblPersons
 	ADD CONSTRAINT ukidentificationDocument UNIQUE (identificationDocument);
 	GO
 
 	-- Necesario para FK fkUniversityStaff_Person_University: la tabla referenciada debe tener PK o UNIQUE en (idPerson, idUniversity)
-	ALTER TABLE users.tblPersons
+	ALTER TABLE ficcua2026.tblPersons
 	ADD CONSTRAINT ukPerson_University UNIQUE (idPerson, idUniversity);
 	GO
 
 
 -- CONSTRAINT (CHECK) SCHEMA USERS
-	ALTER TABLE users.tblPersons 
+	ALTER TABLE ficcua2026.tblPersons 
 	ADD CONSTRAINT ChkIdentificationDocument
 	CHECK (identificationDocument NOT LIKE '%[^a-zA-Z0-9]%');
 
 
 -- CONSTRAINT (FOREIGN KEY) SCHEMA EVENTS
-	ALTER TABLE events.tblUniversities
-	ADD CONSTRAINT fkUniversities_Countries FOREIGN KEY (idCountry) REFERENCES events.tblCountries(idCountry);
+	ALTER TABLE ficcua2026.tblUniversities
+	ADD CONSTRAINT fkUniversities_Countries FOREIGN KEY (idCountry) REFERENCES ficcua2026.tblCountries(idCountry);
 	GO
 
-	ALTER TABLE events.tblEvents
-	ADD CONSTRAINT fkEvents_EventTypes FOREIGN KEY (idEventType) REFERENCES events.tblEventTypes(idEventType);
+	ALTER TABLE ficcua2026.tblEventConfigurations
+	ADD CONSTRAINT fkEventsConfigurations_ConfigurationValueTypes FOREIGN KEY (idConfigValueType) REFERENCES ficcua2026.tblConfigurationValueTypes(idConfigValueType),
+		CONSTRAINT fkEventsConfigurations_idConfigurationParameters FOREIGN KEY (idConfigParam) REFERENCES ficcua2026.tblConfigurationParameters (idConfigParam);
 	GO
 
-	ALTER TABLE events.tblEventConfigurations
-	ADD CONSTRAINT fkEventsConfigurations_ConfigurationValueTypes FOREIGN KEY (idConfigValueType) REFERENCES events.tblConfigurationValueTypes(idConfigValueType),
-		CONSTRAINT fkEventsConfigurations_idConfigurationParameters FOREIGN KEY (idConfigParam) REFERENCES events.tblConfigurationParameters (idConfigParam);
+	ALTER TABLE ficcua2026.tblDelegations
+	ADD CONSTRAINT fkDelegation_University FOREIGN KEY (idUniversity) REFERENCES ficcua2026.tblUniversities(idUniversity),
+	CONSTRAINT fkDelegation_DelegationType FOREIGN KEY (idDelegationType) REFERENCES ficcua2026.tblDelegationTypes(idDelegationType);
 	GO
 
-	ALTER TABLE events.tblDelegations
-	ADD CONSTRAINT fkDelegation_University FOREIGN KEY (idUniversity) REFERENCES events.tblUniversities(idUniversity),
-	CONSTRAINT fkDelegation_DelegationType FOREIGN KEY (idDelegationType) REFERENCES events.tblDelegationType(idDelegationType);
-	GO
-
-	ALTER TABLE events.tblDelegationType
-	ADD CONSTRAINT fkDelegationsType_Events FOREIGN KEY (idEvent) REFERENCES events.tblEvents(idEvent);
-	GO
-
-	ALTER TABLE events.tblUniversityStaffs
+	ALTER TABLE ficcua2026.tblUniversityStaffs
 	ADD 
-	CONSTRAINT	fkUniversityStaff_Person_University FOREIGN KEY (idPerson,idUniversity) REFERENCES users.tblPersons(idPerson,idUniversity),
-	CONSTRAINT	fkUniversityStaff_Event FOREIGN KEY (idEvent) REFERENCES events.tblEvents(idEvent),
-	CONSTRAINT	fkUniversityStaff_Commission FOREIGN KEY (idCommission) REFERENCES events.tblCommissions(idCommission);
+	CONSTRAINT	fkUniversityStaff_Person_University FOREIGN KEY (idPerson,idUniversity) REFERENCES ficcua2026.tblPersons(idPerson,idUniversity),
+	CONSTRAINT	fkUniversityStaff_Commission FOREIGN KEY (idCommission) REFERENCES ficcua2026.tblCommissions(idCommission);
 	GO
 	
-	ALTER TABLE events.tblSpeakers
-	ADD CONSTRAINT fkSpeakers_UniversityStaff FOREIGN KEY (idUniversityStaff) REFERENCES events.tblUniversityStaffs(idUniversityStaff),
-	CONSTRAINT fkSpeakers_SpeakerCategory FOREIGN KEY (idSpeakerCategory) REFERENCES events.tblSpeakerCategories(idSpeakerCategory);
+	ALTER TABLE ficcua2026.tblSpeakers
+	ADD CONSTRAINT fkSpeakers_UniversityStaff FOREIGN KEY (idUniversityStaff) REFERENCES ficcua2026.tblUniversityStaffs(idUniversityStaff),
+	CONSTRAINT fkSpeakers_SpeakerCategory FOREIGN KEY (idSpeakerCategory) REFERENCES ficcua2026.tblSpeakerCategories(idSpeakerCategory);
 	GO
 
 
-	ALTER TABLE events.tblDoctorSpecialties
-	ADD CONSTRAINT fkDoctorSpecialties_UniversityStaff FOREIGN KEY (idUniversityStaff)  REFERENCES events.tblUniversityStaffs (idUniversityStaff),
-	CONSTRAINT fkDoctorSpecialties_Specialty FOREIGN KEy (idSpecialty) REFERENCES events.tblSpecialties (idSpecialty);
+	ALTER TABLE ficcua2026.tblDoctorSpecialties
+	ADD CONSTRAINT fkDoctorSpecialties_UniversityStaff FOREIGN KEY (idUniversityStaff)  REFERENCES ficcua2026.tblUniversityStaffs (idUniversityStaff),
+	CONSTRAINT fkDoctorSpecialties_Specialty FOREIGN KEY (idSpecialty) REFERENCES ficcua2026.tblSpecialties (idSpecialty);
 	GO
 
-	ALTER TABLE events.tblConferences 
-	ADD CONSTRAINT fkConferences_Speakers FOREIGN KEY (idSpeaker) REFERENCES events.tblSpeakers(idSpeaker),
-	CONSTRAINT fkConferences_ConferenceThemes FOREIGN KEY(idConferenceTheme) REFERENCES events.tblConferenceThemes(idConferenceTheme),
-	CONSTRAINT fkConferences_ConferenceTypes FOREIGN KEY(idConferenceType) REFERENCES events.tblConferenceTypes(idConferenceType);
+	ALTER TABLE ficcua2026.tblConferences 
+	ADD CONSTRAINT fkConferences_Speakers FOREIGN KEY (idSpeaker) REFERENCES ficcua2026.tblSpeakers(idSpeaker),
+	CONSTRAINT fkConferences_ConferenceThemes FOREIGN KEY(idConferenceTheme) REFERENCES ficcua2026.tblConferenceThemes(idConferenceTheme),
+	CONSTRAINT fkConferences_ConferenceTypes FOREIGN KEY(idConferenceType) REFERENCES ficcua2026.tblConferenceTypes(idConferenceType);
 	GO
 
-	ALTER TABLE events.tblRoles
+	ALTER TABLE ficcua2026.tblRoles
 	ADD 
-	CONSTRAINT fkRoles_AccessLevel FOREIGN KEY (idAccessLevel) REFERENCES events.tblEventAccessLevel(idAccessLevel),
-	CONSTRAINT fkRoles_RoleCategory FOREIGN KEY (idRoleCategory) REFERENCES events.tblRolesCategories(idRoleCategory);
+		CONSTRAINT fkRoles_AccessLevel FOREIGN KEY (idAccessLevel) REFERENCES ficcua2026.tblEventAccessLevel(idAccessLevel),
+		CONSTRAINT fkRoles_RoleCategory FOREIGN KEY (idRoleCategory) REFERENCES ficcua2026.tblRolesCategories(idRoleCategory);
 	GO
 
-	ALTER TABLE events.tblRolesCategories
-	ADD 
-		CONSTRAINT fkRoleCategories_Event FOREIGN KEY (idEventType) REFERENCES events.tblEventTypes(idEventType);
-	GO
 
 	-- FK idRole en tblUniversityStaffs
-	ALTER TABLE events.tblUniversityStaffs
-	ADD CONSTRAINT fkUniversityStaff_Role FOREIGN KEY (idRole) REFERENCES events.tblRoles(idRole);
+	ALTER TABLE ficcua2026.tblUniversityStaffs
+	ADD CONSTRAINT fkUniversityStaff_Role FOREIGN KEY (idRole) REFERENCES ficcua2026.tblRoles(idRole);
 	GO
 
 
 	
--- CONSTRAINT (FOREIGN KEY) SCHEMA SPORTS
-	ALTER TABLE sports.tblSports
-	ADD CONSTRAINT fkSports_DelegationTypes FOREIGN KEY (idSport) REFERENCES events.tblDelegationType(idDelegationType),
-	CONSTRAINT fkSports_SportTypes FOREIGN KEY (idSportType) REFERENCES sports.tblSportTypes(idSportType);
+-- CONSTRAINT (FOREIGN KEY) EVENT modalities/categories
+	ALTER TABLE ficcua2026.tblModalities
+	ADD CONSTRAINT fkModalities_DelegationType FOREIGN KEY (idDelegationType) REFERENCES ficcua2026.tblDelegationTypes(idDelegationType);
+	GO
+	ALTER TABLE ficcua2026.tblCategories
+	ADD CONSTRAINT fkCategories_Modality FOREIGN KEY (idModality) REFERENCES ficcua2026.tblModalities(idModality);
 	GO
 
-	ALTER TABLE sports.tblSportModalities
-	ADD CONSTRAINT fkSportModalities_Sports FOREIGN KEY (idSport) REFERENCES sports.tblSports(idSport);
-	GO
-
-	ALTER TABLE sports.tblSportCategories 
-	ADD CONSTRAINT fkSportCategories_SportModalities FOREIGN KEY (idSportModality) REFERENCES sports.tblSportModalities(idSportModality),
-	CONSTRAINT fkSportCategories_Genders FOREIGN KEY (idGender) REFERENCES users.tblGenders(idGender);
-	GO
-
-	ALTER TABLE sports.tblSportDelegations
-	ADD CONSTRAINT fkSportDelegations_Delegation FOREIGN KEY (idSportDelegation) REFERENCES events.tblDelegations(idDelegation),
-    CONSTRAINT fkSportDelegations_Genders FOREIGN KEY (idGender) REFERENCES users.tblGenders(idGender);
-	GO
-
-	ALTER TABLE sports.tblSportTests
-	ADD CONSTRAINT fkSportTest_Sports FOREIGN KEY (idSport) REFERENCES sports.tblSports(idSport),
-	CONSTRAINT fkSportTest_TestType FOREIGN KEY (idTestType) REFERENCES sports.tblTestTypes(idTestType),
-    CONSTRAINT fkSportTest_Genders FOREIGN KEY (idGender) REFERENCES users.tblGenders(idGender);
-	GO
-
-	ALTER TABLE sports.tblAthleteSportModalities
-	ADD CONSTRAINT fkAthleteSportModalities_SportDelegation FOREIGN KEY (idSportDelegation) REFERENCES sports.tblSportDelegations(idSportDelegation),
-	CONSTRAINT fkAthleteSportModalities_SportModalities FOREIGN KEY (idSportModality) REFERENCES sports.tblSportModalities(idSportModality);
-	
-	GO
-
-	ALTER TABLE sports.tblAthleteSportCategories
-	ADD CONSTRAINT fkAthleteSportCategories_SportDelegation FOREIGN KEY (idSportDelegation) REFERENCES sports.tblSportDelegations(idSportDelegation),
-		CONSTRAINT fkAthleteSportCategories_SportCategory FOREIGN KEY (idSportCategory) REFERENCES sports.tblSportCategories (idSportCategory);
-	GO
-	ALTER TABLE sports.tblAthleteSportTests
-	ADD CONSTRAINT fkAthleteSportTests_SportDelegation FOREIGN KEY (idSportDelegation) REFERENCES sports.tblSportDelegations(idSportDelegation),
-	CONSTRAINT fkAthleteSportTests_SportTests FOREIGN KEY (idSportTest) REFERENCES sports.tblSportTests(idSportTest);
-	GO 
-
--- CONSTRAINT (FOREIGN KEY) SCHEMA ARTS
-	ALTER TABLE arts.tblArtDelegations
-	ADD CONSTRAINT fkArtDelegations_Delegation FOREIGN KEY (idArtDelegation) REFERENCES  events.tblDelegations (idDelegation),
-	CONSTRAINT fkArtDelegations_Proposals FOREIGN KEY (idProposal) REFERENCES  arts.tblProposals (idProposal),
-	CONSTRAINT fkArtDelegations_ArtModality FOREIGN KEY (idArtModality) REFERENCES  arts.tblArtModalities (idArtModality);
-	GO
-
-	ALTER TABLE arts.tblArts
-	ADD CONSTRAINT fkArts_DelegationType  FOREIGN KEY (idArt ) REFERENCES events.tblDelegationType(idDelegationType),
-	CONSTRAINT fkArts_ArtTypes FOREIGN KEY (idArtType) REFERENCES  arts.tblArtTypes(idArtType);
-	GO 
-
-	ALTER TABLE arts.tblArtModalities 
-	ADD CONSTRAINT fkArtsModalities_Arts FOREIGN KEY (idArt) REFERENCES  arts.tblArts(idArt);
-	GO
-
-	ALTER TABLE arts.tblArtCategories
-	ADD CONSTRAINT fkArtCategories_Arts FOREIGN KEY (idArt) REFERENCES  arts.tblArts(idArt );
-	GO
-
-	 ALTER TABLE arts.tblArtCategoriesModalities
-	ADD CONSTRAINT fkArtCategoriesModalities_Modalities FOREIGN KEY (idArtModality) REFERENCES  arts.tblArtModalities(idArtModality),
-	 CONSTRAINT fkArtCategoriesModalities_Categories FOREIGN KEY (idArtCategory) REFERENCES  arts.tblArtCategories (idArtCategory);
+-- CONSTRAINT (FOREIGN KEY) ARTS - delegaciones con arte (idProposal, idModality, idCategory en ficcua2026.tblDelegations)
+	ALTER TABLE ficcua2026.tblDelegations
+	ADD
+	CONSTRAINT fkDelegation_Proposal FOREIGN KEY (idProposal) REFERENCES ficcua2026.tblProposals(idProposal),
+	CONSTRAINT fkDelegation_Modality FOREIGN KEY (idModality) REFERENCES ficcua2026.tblModalities(idModality),
+	CONSTRAINT fkDelegation_Category FOREIGN KEY (idCategory) REFERENCES ficcua2026.tblCategories(idCategory);
 	GO
 
 
 -- CONSTRAINT (FOREIGN KEY) SCHEMA USERS
-	ALTER TABLE users.tblPersons
-	ADD CONSTRAINT fkPersons_Universities FOREIGN KEY (idUniversity) REFERENCES events.tblUniversities(idUniversity),
-		CONSTRAINT fkPersons_Genders FOREIGN KEY (idGender) REFERENCES users.tblGenders(idGender),
-		CONSTRAINT fkPersons_Country FOREIGN KEY (idCountry) REFERENCES events.tblCountries(idCountry),
-		CONSTRAINT fkPersons_Career FOREIGN KEY (idCareer) REFERENCES events.tblCareers(idCareer)
+	ALTER TABLE ficcua2026.tblPersons
+	ADD CONSTRAINT fkPersons_Universities FOREIGN KEY (idUniversity) REFERENCES ficcua2026.tblUniversities(idUniversity),
+		CONSTRAINT fkPersons_Genders FOREIGN KEY (idGender) REFERENCES ficcua2026.tblGenders(idGender),
+		CONSTRAINT fkPersons_Country FOREIGN KEY (idCountry) REFERENCES ficcua2026.tblCountries(idCountry),
+		CONSTRAINT fkPersons_Career FOREIGN KEY (idCareer) REFERENCES ficcua2026.tblCareers(idCareer)
 	GO
 
-	ALTER TABLE users.tblUsers
-	ADD CONSTRAINT fkUsers_Persons FOREIGN KEY (idUser) REFERENCES users.tblPersons(idPerson);
+	ALTER TABLE ficcua2026.tblUsers
+	ADD CONSTRAINT fkUsers_Persons FOREIGN KEY (idUser) REFERENCES ficcua2026.tblPersons(idPerson);
 	GO
 
-	/*
-	ALTER TABLE users.tblUserEvents
-	ADD CONSTRAINT fkUsers_Evets FOREIGN KEY (idEvent) REFERENCES events.tblEvents (idEvent);
+	ALTER TABLE ficcua2026.tblEventUser
+	ADD CONSTRAINT fkEventUser_User FOREIGN KEY (idUser) REFERENCES ficcua2026.tblUsers(idUser);
 	GO
-	*/
 	
-	ALTER TABLE users.tblUserRoleRelations
-	ADD CONSTRAINT fkUserRoleRelations_Users FOREIGN KEY (idUser) REFERENCES users.tblUsers(idUser),
-		CONSTRAINT fkUserRoleRelations_Roles FOREIGN KEY (idUserRole) REFERENCES users.tblUserRoles(idUserRole);
+	ALTER TABLE ficcua2026.tblUserRoleRelations
+	ADD CONSTRAINT fkUserRoleRelations_Users FOREIGN KEY (idUser) REFERENCES ficcua2026.tblUsers(idUser),
+		CONSTRAINT fkUserRoleRelations_Roles FOREIGN KEY (idUserRole) REFERENCES ficcua2026.tblUserRoles(idUserRole);
 	GO
 
 	
-	ALTER TABLE users.tblRoleActionRelations
-	ADD CONSTRAINT fkRoleActionRelations_Roles FOREIGN KEY (idUserRole) REFERENCES users.tblUserRoles(idUserRole),
-		CONSTRAINT fkRoleActionRelations_Actions FOREIGN KEY (idAction) REFERENCES users.tblRoleActions(idAction);
+	ALTER TABLE ficcua2026.tblRoleActionRelations
+	ADD CONSTRAINT fkRoleActionRelations_Roles FOREIGN KEY (idUserRole) REFERENCES ficcua2026.tblUserRoles(idUserRole),
+		CONSTRAINT fkRoleActionRelations_Actions FOREIGN KEY (idAction) REFERENCES ficcua2026.tblRoleActions(idAction);
 	GO
 	
-	ALTER TABLE users.tblEndpointActions
-	ADD CONSTRAINT fkEndpointActions_RoleActions FOREIGN KEY (idAction) REFERENCES users.tblRoleActions(idAction);	
+	ALTER TABLE ficcua2026.tblEndpointActions
+	ADD CONSTRAINT fkEndpointActions_RoleActions FOREIGN KEY (idAction) REFERENCES ficcua2026.tblRoleActions(idAction);	
 	GO
 
-	ALTER TABLE users.tblDelegationPersons
-	ADD CONSTRAINT fkDelegationPersons_Delegations FOREIGN KEY (idDelegation) REFERENCES events.tblDelegations(idDelegation),
-		CONSTRAINT fkDelegationPersons_Persons FOREIGN KEY (idPerson) REFERENCES users.tblPersons(idPerson),
-		CONSTRAINT fkDelegationPersons_Role FOREIGN KEY (idRole) REFERENCES events.tblRoles(idRole);
+	ALTER TABLE ficcua2026.tblDelegationPersons
+	ADD CONSTRAINT fkDelegationPersons_Delegations FOREIGN KEY (idDelegation) REFERENCES ficcua2026.tblDelegations(idDelegation),
+		CONSTRAINT fkDelegationPersons_Persons FOREIGN KEY (idPerson) REFERENCES ficcua2026.tblPersons(idPerson),
+		CONSTRAINT fkDelegationPersons_Role FOREIGN KEY (idRole) REFERENCES ficcua2026.tblRoles(idRole);
+	GO
+
+	ALTER TABLE ficcua2026.tblPersonFiles
+	ADD CONSTRAINT fkPersonFiles_Person FOREIGN KEY (idPerson) REFERENCES ficcua2026.tblPersons(idPerson);
+	GO
+
+	ALTER TABLE ficcua2026.tblDelegationFiles
+	ADD CONSTRAINT fkDelegationFiles_Delegation FOREIGN KEY (idDelegation) REFERENCES ficcua2026.tblDelegations(idDelegation);
 	GO
 
 	
